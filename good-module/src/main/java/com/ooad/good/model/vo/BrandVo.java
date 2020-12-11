@@ -4,15 +4,18 @@ import com.ooad.good.model.bo.Brand;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 品牌传值对象
  */
 @Data
 public class BrandVo {
-    @ApiModelProperty(value="品牌名称")
+    @NotNull(message = "品牌名不能为空")
     private String name;
 
-    @ApiModelProperty(value="品牌描述")
+
+    @NotNull(message = "品牌描述不能为空")
     private String detail;
 
     /**
