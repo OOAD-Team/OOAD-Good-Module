@@ -66,8 +66,8 @@ public class Brand implements VoObject {
      */
     public BrandPo gotBrandPo(){
         BrandPo po=new BrandPo();
-        po.setId(this.id);
-        po.setName(this.name);
+        po.setId(this.getId());
+        po.setName(this.getName());
         po.setImageUrl(this.imageUrl);
         po.setDetail(this.detail);
         po.setGmtCreate(this.gmtCreate);

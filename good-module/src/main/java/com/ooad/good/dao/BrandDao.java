@@ -54,8 +54,8 @@ public class BrandDao {
 
         List<VoObject> ret = new ArrayList<>(brandPos.size());
         for (BrandPo po : brandPos) {
-
             Brand brand = new Brand(po);
+
             logger.info("getAllBrands: " + brand);
             ret.add(brand);
 
@@ -83,17 +83,23 @@ public class BrandDao {
         BrandPoExample.Criteria criteria = brandPo.createCriteria();
         criteria.andIdEqualTo(id);
 
-        try{
-            int ret= brandMapper.deleteByExample(brandPo);
-            if(ret==0){
-                logger.debug("deleteBrand id not exist = "+id );
-                retObj= new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST, String.format("品牌id不存在：" + id));
+        try {
+            int ret = brandMapper.deleteByExample(brandPo);
+            if (ret == 0) {
+                //删除角色表
+                logger.debug("deleteBrand: id not exist = " + id);
+                retObj = new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST, String.format("角色id不存在：" + id));
             }
-            else{
-                logger.info("delete brand id = " + id);
-                retObj=new ReturnObject<>();
+            else {
+
+                logger.debug("deleteRole: delete brand id = " + id);
+
+                retObj = new ReturnObject<>();
             }
-        }
+
+        return retObj;
+    }
+
         catch (DataAccessException e){
             logger.error("selectAllRole: DataAccessException:" + e.getMessage());
             return new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR, String.format("数据库错误：%s", e.getMessage()));
@@ -103,12 +109,7 @@ public class BrandDao {
             logger.error("other exception : " + e.getMessage());
             return new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR, String.format("发生了严重的数据库错误：%s", e.getMessage()));
         }
-
-
-
-        return retObj;
     }
-
     /**
      * 增加品牌
      * @param brand
