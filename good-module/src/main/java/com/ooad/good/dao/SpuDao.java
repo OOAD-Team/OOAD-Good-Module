@@ -5,6 +5,7 @@ import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.mapper.Goods_spuPoMapper;
 import com.ooad.good.model.bo.Spu;
 import com.ooad.good.model.po.Goods_spuPo;
+import com.ooad.good.model.po.Goods_spuPoExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,4 +59,49 @@ public class SpuDao {
         }
         return retObj;
     }
+
+    /**
+     * 店家修改spu
+     * @param spu
+     * @return
+     */
+    public ReturnObject<Spu> updateSpu(Spu spu) {
+        Goods_spuPo spuPo = spu.gotSpuPo();
+        ReturnObject<Spu> retObj = null;
+        Goods_spuPoExample example = new Goods_spuPoExample();
+        Goods_spuPoExample.Criteria criteria = example.createCriteria();
+        criteria.andIdEqualTo(spu.getId());
+
+        try{
+            int ret = spuPoMapper.updateByExampleSelective(spuPo, example);
+//            int ret = roleMapper.updateByPrimaryKeySelective(rolePo);
+            if (ret == 0) {
+                //修改失败
+                logger.debug("updateRole: update spu fail : " + spuPo.toString());
+                retObj = new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST, String.format("spu id不存在：" + spuPo.getId()));
+            } else {
+                //修改成功
+                logger.debug("updateRole: update spu = " + spuPo.toString());
+                retObj = new ReturnObject<>();
+            }
+        }
+        catch (DataAccessException e) {
+            if (Objects.requireNonNull(e.getMessage()).contains("auth_role.auth_role_name_uindex")) {
+                //若有重复的角色名则修改失败
+                logger.debug("updateRole: have same spu name = " + spuPo.getName());
+                retObj = new ReturnObject<>(ResponseCode.ROLE_REGISTERED, String.format("spu名重复：" + spuPo.getName()));
+            } else {
+                // 其他数据库错误
+                logger.debug("other sql exception : " + e.getMessage());
+                retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR, String.format("数据库错误：%s", e.getMessage()));
+            }
+        }
+        catch (Exception e) {
+            // 其他Exception错误
+            logger.error("other exception : " + e.getMessage());
+            retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR, String.format("发生了严重的数据库错误：%s", e.getMessage()));
+        }
+        return retObj;
+    }
+
 }

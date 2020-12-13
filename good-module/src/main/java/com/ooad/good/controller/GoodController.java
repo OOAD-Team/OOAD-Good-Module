@@ -201,7 +201,35 @@ public class GoodController {
 
     }
 
+    /**
+     * 店家修改spu
+     * @param id
+     * @param vo
+     * @param bindingResult
+     * @return
+     */
+    @Audit
+    @PutMapping("/spus/{id}")
+    Object updateSpu(@PathVariable("id")Long id,@Validated @RequestBody SpuVo vo,BindingResult bindingResult ){
+        logger.debug("update spu: id = "+id);
 
+        //校验前端数据
+        Object returnObject = Common.processFieldErrors(bindingResult, httpServletResponse);
+        if (null != returnObject) {
+            logger.debug("validate fail");
+            return returnObject;
+        }
+        Spu spu=vo.createSpu();
+        spu.setId(id);
+        spu.setGmtCreate(LocalDateTime.now());
+
+        ReturnObject retObject = spuService.updateSpu(spu);
+        if (retObject.getData() != null) {
+            return Common.getRetObject(retObject);
+        } else {
+            return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
+        }
+    }
 
 }
 
