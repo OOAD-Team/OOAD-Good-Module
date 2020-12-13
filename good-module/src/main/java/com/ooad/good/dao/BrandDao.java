@@ -46,6 +46,7 @@ public class BrandDao {
     public ReturnObject<PageInfo<VoObject>> getAllBrands(Integer page, Integer pageSize) {
         BrandPoExample example = new BrandPoExample();
         BrandPoExample.Criteria criteria = example.createCriteria();
+
         PageHelper.startPage(page, pageSize);
         List<BrandPo> brandPos = null;
         try {
@@ -84,6 +85,7 @@ public class BrandDao {
         ReturnObject<Object> retObj = null;
         BrandPoExample brandPo = new BrandPoExample();
         BrandPoExample.Criteria criteria = brandPo.createCriteria();
+
         criteria.andIdEqualTo(id);
 
         try {

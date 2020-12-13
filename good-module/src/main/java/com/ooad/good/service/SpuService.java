@@ -25,4 +25,15 @@ public class SpuService {
         ReturnObject<Spu> retObj = spuDao.insertSpu(spu);
         return retObj;
     }
+
+    /**
+     * 店家修改商品spu
+     * @param spu
+     * @return
+     */
+    @Transactional
+    public ReturnObject updateSpu(Spu spu){
+        ReturnObject<Spu>retObj=spuDao.updateSpu(spu);
+        return retObj;
+    }
 }
