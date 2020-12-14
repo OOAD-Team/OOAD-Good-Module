@@ -2,7 +2,7 @@ package controller;
 
 import cn.edu.xmu.ooad.Application;
 import cn.edu.xmu.ooad.util.ResponseCode;
-import com.ooad.good.controller.BrandController;
+import com.ooad.good.controller.GoodController;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.boot.test.context.SpringBootTest;

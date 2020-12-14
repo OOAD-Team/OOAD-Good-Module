@@ -62,7 +62,7 @@ public class BrandService {
      */
     @Transactional
     public ReturnObject updateBrand(Brand brand){
-        ReturnObject<Brand>retobj=brandDao.updateBrand(brand);
+        ReturnObject<Brand> retobj=brandDao.updateBrand(brand);
         return retobj;
     }
 
