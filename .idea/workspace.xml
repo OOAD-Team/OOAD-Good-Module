@@ -3,8 +3,35 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="6478ac7e-4fb1-410c-84e5-66d56ffb24a3" name="Default Changelist" comment="" />
+    <list default="true" id="6478ac7e-4fb1-410c-84e5-66d56ffb24a3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/OOAD-Good-Module.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/good-module/src/main/java/com/ooad/good/controller/ShopController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/good-module/src/main/java/com/ooad/good/dao/ShopDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/good-module/src/main/java/com/ooad/good/model/bo/Shop.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/good-module/src/main/java/com/ooad/good/service/ShopService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/good-module/src/main/resources/mybatis-generator-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/good-module/src/main/resources/mybatis-generator-config.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,6 +54,32 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/good-module/src/main/java/com/ooad/good/service" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/good-module/src/main/java/com/ooad/good/service" />
+      <recent name="$PROJECT_DIR$/good-module/src/main/java/com/ooad/good/model/vo" />
+      <recent name="$PROJECT_DIR$/good-module/src/main/java/com/ooad/good/model/bo" />
+      <recent name="$PROJECT_DIR$/good-module/src/main/java/com/ooad/good/dao" />
+      <recent name="$PROJECT_DIR$/good-module/src/main/java/com/ooad/good/controller" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -36,7 +89,22 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1607655967008</updated>
+      <workItem from="1607947860662" duration="456000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
