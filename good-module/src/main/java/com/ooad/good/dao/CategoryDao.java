@@ -2,12 +2,11 @@ package com.ooad.good.dao;
 
 import cn.edu.xmu.ooad.util.ResponseCode;
 import cn.edu.xmu.ooad.util.ReturnObject;
-import com.ooad.good.mapper.Goods_categoryPoMapper;
+
+import com.ooad.good.mapper.GoodsCategoryPoMapper;
 import com.ooad.good.model.bo.Category;
-import com.ooad.good.model.po.BrandPo;
-import com.ooad.good.model.po.BrandPoExample;
-import com.ooad.good.model.po.Goods_categoryPo;
-import com.ooad.good.model.po.Goods_categoryPoExample;
+import com.ooad.good.model.po.GoodsCategoryPo;
+import com.ooad.good.model.po.GoodsCategoryPoExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class CategoryDao {
     private static final Logger logger = LoggerFactory.getLogger(CategoryDao.class);
 
     @Autowired
-    Goods_categoryPoMapper categoryPoMapper;
+    private GoodsCategoryPoMapper categoryPoMapper;
 
     /**
      * 管理员删除商品类目
@@ -32,8 +31,8 @@ public class CategoryDao {
      */
     public ReturnObject<Object> deleteCategory(Long id) {
         ReturnObject<Object> retObj = null;
-        Goods_categoryPoExample example = new Goods_categoryPoExample();
-        Goods_categoryPoExample.Criteria criteria = example.createCriteria();
+        GoodsCategoryPoExample example = new GoodsCategoryPoExample();
+        GoodsCategoryPoExample.Criteria criteria = example.createCriteria();
         criteria.andIdEqualTo(id);
         try {
             int ret = categoryPoMapper.deleteByExample(example);
@@ -64,10 +63,10 @@ public class CategoryDao {
      * @return
      */
     public ReturnObject<Category> updateCategory(Category category) {
-        Goods_categoryPo categoryPo = category.gotCategoryPo();
+        GoodsCategoryPo categoryPo = category.gotCategoryPo();
         ReturnObject<Category> retObj = null;
-        Goods_categoryPoExample example = new Goods_categoryPoExample();
-        Goods_categoryPoExample.Criteria criteria = example.createCriteria();
+        GoodsCategoryPoExample example = new GoodsCategoryPoExample();
+        GoodsCategoryPoExample.Criteria criteria = example.createCriteria();
         criteria.andIdEqualTo(category.getId());
 
 

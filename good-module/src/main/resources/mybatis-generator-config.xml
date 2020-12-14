@@ -158,9 +158,9 @@
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
 
-        <table tableName="coupon_activity" domainObjectName="Coupon_activityPo"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
+        <table tableName="coupon_activity" domainObjectName="CouponActivityPo"
+               enableCountByExample="false" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="false" delimitAllColumns="true">
             <!-- 如果设置为true，生成的model类会直接使用column本身的名字，而不会再使用驼峰命名方法，比如BORN_DATE，生成的属性名字就是BORN_DATE,而不会是bornDate -->
             <property name="useActualColumnNames" value="false"/>
@@ -168,7 +168,7 @@
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
 
-        <table tableName="coupon_spu" domainObjectName="Coupon_spuPo"
+        <table tableName="coupon_sku" domainObjectName="CouponSkuPo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
@@ -178,7 +178,7 @@
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
 
-        <table tableName="flash_sale" domainObjectName="Fash_salePo"
+        <table tableName="flash_sale" domainObjectName="FlashSalePo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
@@ -188,7 +188,7 @@
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
 
-        <table tableName="flash_sale_item" domainObjectName="Flash_sale_itemPo"
+        <table tableName="flash_sale_item" domainObjectName="FlashSaleItemPo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
@@ -197,7 +197,7 @@
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
-        <table tableName="float_price" domainObjectName="Float_pricePo"
+        <table tableName="float_price" domainObjectName="FloatPricePo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
@@ -206,7 +206,7 @@
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
-        <table tableName="goods_category" domainObjectName="Goods_categoryPo"
+        <table tableName="goods_category" domainObjectName="GoodsCategoryPo"
                enableCountByExample="false" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="false">
@@ -215,7 +215,7 @@
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
-        <table tableName="goods_sku" domainObjectName="Goods_skuPo"
+        <table tableName="goods_sku" domainObjectName="SkuPo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
@@ -224,7 +224,7 @@
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
-        <table tableName="goods_spu" domainObjectName="Goods_spuPo"
+        <table tableName="goods_spu" domainObjectName="SpuPo"
                enableCountByExample="false" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="false">
@@ -233,7 +233,7 @@
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
-        <table tableName="groupon_activity" domainObjectName="Groupon_activityPo"
+        <table tableName="groupon_activity" domainObjectName="GrouponActivityPo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
@@ -242,7 +242,7 @@
             <!--mysql 配置-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
-        <table tableName="presale_activity" domainObjectName="Presale_activityPo"
+        <table tableName="presale_activity" domainObjectName="PresaleActivityPo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
