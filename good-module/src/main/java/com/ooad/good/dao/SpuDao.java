@@ -2,10 +2,10 @@ package com.ooad.good.dao;
 
 import cn.edu.xmu.ooad.util.ResponseCode;
 import cn.edu.xmu.ooad.util.ReturnObject;
-import com.ooad.good.mapper.Goods_spuPoMapper;
+import com.ooad.good.mapper.SpuPoMapper;
 import com.ooad.good.model.bo.Spu;
-import com.ooad.good.model.po.Goods_spuPo;
-import com.ooad.good.model.po.Goods_spuPoExample;
+import com.ooad.good.model.po.SpuPo;
+import com.ooad.good.model.po.SpuPoExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.Objects;
 public class SpuDao {
     private Logger logger = LoggerFactory.getLogger(SpuDao.class);
     @Autowired
-    private Goods_spuPoMapper spuPoMapper;
+    private SpuPoMapper spuPoMapper;
 
     /**
      * 店家新建商品spu
@@ -26,7 +26,7 @@ public class SpuDao {
      * @return
      */
     public ReturnObject<Spu>insertSpu(Spu spu){
-        Goods_spuPo spuPo=spu.gotSpuPo();
+        SpuPo spuPo=spu.gotSpuPo();
         ReturnObject<Spu>retObj=null;
         try{
             int ret = spuPoMapper.insertSelective(spuPo);
@@ -66,10 +66,10 @@ public class SpuDao {
      * @return
      */
     public ReturnObject<Spu> updateSpu(Spu spu) {
-        Goods_spuPo spuPo = spu.gotSpuPo();
+        SpuPo spuPo = spu.gotSpuPo();
         ReturnObject<Spu> retObj = null;
-        Goods_spuPoExample example = new Goods_spuPoExample();
-        Goods_spuPoExample.Criteria criteria = example.createCriteria();
+        SpuPoExample example = new SpuPoExample();
+        SpuPoExample.Criteria criteria = example.createCriteria();
         criteria.andIdEqualTo(spu.getId());
 
         try{

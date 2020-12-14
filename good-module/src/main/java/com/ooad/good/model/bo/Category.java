@@ -1,9 +1,7 @@
 package com.ooad.good.model.bo;
 
 import cn.edu.xmu.ooad.model.VoObject;
-import com.ooad.good.model.po.Goods_categoryPo;
-import com.ooad.good.model.vo.BrandRetVo;
-import com.ooad.good.model.vo.BrandSimpleRetVo;
+import com.ooad.good.model.po.GoodsCategoryPo;
 import com.ooad.good.model.vo.CategoryRetVo;
 import com.ooad.good.model.vo.CategorySimpleRetVo;
 import lombok.Data;
@@ -25,9 +23,9 @@ public class Category implements VoObject {
 
     /**
      * po构造bo对象
-     * @param po
+    * @param po
      */
-    public  Category(Goods_categoryPo po){
+    public  Category(GoodsCategoryPo po){
         this.id=po.getId();
         this.name=po.getName();
         this.pid=po.getPid();
@@ -40,8 +38,8 @@ public class Category implements VoObject {
      * bo创建po对象
      * @return
      */
-    public Goods_categoryPo gotCategoryPo(){
-        Goods_categoryPo po=new Goods_categoryPo();
+    public GoodsCategoryPo gotCategoryPo(){
+        GoodsCategoryPo po=new GoodsCategoryPo();
         po.setId(this.getId());
         po.setPid(this.getPid());
         po.setName(this.getName());

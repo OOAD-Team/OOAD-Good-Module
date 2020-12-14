@@ -1,9 +1,6 @@
 package com.ooad.good.model.bo;
 
-import com.ooad.good.model.po.BrandPo;
-import com.ooad.good.model.po.Goods_categoryPo;
-import com.ooad.good.model.po.Goods_spuPo;
-import com.ooad.good.model.vo.BrandVo;
+import com.ooad.good.model.po.SpuPo;
 import com.ooad.good.model.vo.SpuVo;
 import lombok.Data;
 
@@ -34,7 +31,7 @@ public class Spu {
      * po对象构建bo对象
      * @param po
      */
-    public Spu(Goods_spuPo po) {
+    public Spu(SpuPo po) {
         this.id=po.getId();
         this.name=po.getName();
         this.brandId=po.getBrandId();
@@ -56,8 +53,8 @@ public class Spu {
      * @param vo
      * @return
      */
-    public Goods_spuPo createUpdatePo(SpuVo vo){
-        Goods_spuPo po=new Goods_spuPo();
+    public SpuPo createUpdatePo(SpuVo vo){
+       SpuPo po=new SpuPo();
         po.setId(this.getId());
 
         po.setName(vo.getName());
@@ -71,8 +68,8 @@ public class Spu {
      * 用bo对象创建更新po对象
      * @return
      */
-    public Goods_spuPo gotSpuPo(){
-        Goods_spuPo po=new Goods_spuPo();
+    public SpuPo gotSpuPo(){
+        SpuPo po=new SpuPo();
 
         po.setId(this.getId());
         po.setName(this.getName());
