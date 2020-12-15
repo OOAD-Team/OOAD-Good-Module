@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 品牌返回Vo
+ * 品牌返回视图
  */
 @Data
 public class BrandRetVo {

@@ -76,6 +76,13 @@ public class CouponController {
 
     }
 
+    /**
+     * 管理员修改己方优惠活动
+     * @param id
+     * @param vo
+     * @param bindingResult
+     * @return
+     */
     @Audit
     @PutMapping("/couponactivities/{id}")
     public Object updateCouponActivity(@PathVariable("id") Long id, @Validated @RequestBody UpdateCouponActivityVo vo,BindingResult bindingResult){
@@ -96,9 +103,14 @@ public class CouponController {
         }
     }
 
+    /**
+    @Audit
+    @PostMapping("/couponactivities/{id}/usercoupons")
+    public Object getCoupon(@PathVariable("id")Long id ){
+        logger.debug("get coupon: couponactivity_id ="+id);
 
 
-
-
+    }
+*/
 
 }
