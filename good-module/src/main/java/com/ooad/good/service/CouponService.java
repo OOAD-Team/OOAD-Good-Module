@@ -35,13 +35,25 @@ public class CouponService {
      */
     @Transactional
     public ReturnObject deleteCouponActivity(Long id){
+
         return couponDao.deleteCouponActivity(id);
     }
 
+    /**
+     * 管理员修改己方优惠活动
+     * @param couponActivity
+     * @return
+     */
     @Transactional
     public ReturnObject updateCouponActivity(CouponActivity couponActivity){
         ReturnObject<CouponActivity> retObj=couponDao.updateCouponActivity(couponActivity);
         return retObj;
     }
 
+    /**
+    @Transactional
+    public ReturnObject getCoupon(Long id){
+
+    }
+    */
 }

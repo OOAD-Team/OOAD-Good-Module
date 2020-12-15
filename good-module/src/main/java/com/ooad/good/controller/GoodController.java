@@ -9,13 +9,16 @@ import cn.edu.xmu.ooad.util.ReturnObject;
 import com.github.pagehelper.PageInfo;
 import com.ooad.good.model.bo.Brand;
 import com.ooad.good.model.bo.Category;
+import com.ooad.good.model.bo.Sku;
 import com.ooad.good.model.bo.Spu;
 import com.ooad.good.model.vo.BrandVo;
 import com.ooad.good.model.vo.CategoryVo;
+import com.ooad.good.model.vo.SkuVo;
 import com.ooad.good.model.vo.SpuVo;
 import com.ooad.good.service.BrandService;
 
 import com.ooad.good.service.CategoryService;
+import com.ooad.good.service.SkuService;
 import com.ooad.good.service.SpuService;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
@@ -231,5 +234,42 @@ public class GoodController {
         }
     }
 
+
+
+
+
+    @Autowired
+    private SkuService skuService;
+
+    /**
+     * 管理员添加新的sku到spu里
+     * @param id
+     * @param vo
+     * @param bindingResult
+     * @return
+     */
+    @Audit
+    @PostMapping("/spus/{id}/skus")
+    public Object insertSku(@PathVariable("id")Long id, @Validated @RequestBody SkuVo vo,BindingResult bindingResult){
+
+        logger.debug("insert sku: spuId = "+id);
+
+        //校验前端数据
+        Object returnObject = Common.processFieldErrors(bindingResult, httpServletResponse);
+        if (null != returnObject) {
+            logger.debug("validate fail");
+            return returnObject;
+        }
+
+        Sku sku=vo.createSku();
+        sku.setGmtCreate(LocalDateTime.now());
+        sku.setGoodsSpuId(id);//spuId设为url传入的id
+        ReturnObject retObject = skuService.insertSku(sku);
+        if (retObject.getData() != null) {
+            return Common.getRetObject(retObject);
+        } else {
+            return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
+        }
+    }
 }
 
