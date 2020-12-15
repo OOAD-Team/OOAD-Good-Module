@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/OOAD-Good-Module.iml" filepath="$PROJECT_DIR$/.idea/OOAD-Good-Module.iml" />
+      <module fileurl="file://$PROJECT_DIR$/good-module/good-module.iml" filepath="$PROJECT_DIR$/good-module/good-module.iml" />
     </modules>
   </component>
 </project>
