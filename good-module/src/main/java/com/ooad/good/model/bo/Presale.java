@@ -4,13 +4,17 @@ package com.ooad.good.model.bo;
  * 预售活动传值对象
  */
 
+import cn.edu.xmu.ooad.model.VoObject;
 import com.ooad.good.model.po.PresaleActivityPo;
+import com.ooad.good.model.vo.BrandRetVo;
+import com.ooad.good.model.vo.BrandSimpleRetVo;
+import com.ooad.good.model.vo.PresaleRetVo;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class Presale {
+public class Presale implements VoObject {
 
     private Long id;
     private String name;
@@ -52,4 +56,32 @@ public class Presale {
         po.setGmtModified(this.getGmtModified());
         return po;
     }
+
+    public Presale(PresaleActivityPo po){
+
+        this.id=po.getId();
+        this.name=po.getName();
+        this.beginTime=po.getBeginTime();
+        this.payTime=po.getPayTime();
+        this.endTime=po.getEndTime();
+        this.state=po.getState();
+        this.shopId=po.getShopId();
+        this.goodsSkuId=po.getGoodsSkuId();
+        this.quantity=po.getQuantity();
+        this.advancePayPrice=po.getAdvancePayPrice();
+        this.restPayPrice=po.getRestPayPrice();
+        this.gmtCreate=po.getGmtCreate();
+        this.gmtModified=po.getGmtModified();
+
+
+    }
+    @Override
+    public Object createVo(){return null;}
+
+    /**
+     * 生成BrandSimpleRetVo对象作为返回前端
+     * @return
+     */
+    @Override
+    public BrandSimpleRetVo createSimpleVo(){return null; }
 }
