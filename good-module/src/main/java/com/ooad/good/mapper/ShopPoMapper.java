@@ -1,6 +1,8 @@
 package com.ooad.good.mapper;
 
 import com.ooad.good.model.po.ShopPo;
+import com.ooad.good.model.po.ShopPoExample;
+import java.util.List;
 
 public interface ShopPoMapper {
     /**
