@@ -4,10 +4,12 @@ import cn.edu.xmu.ooad.model.VoObject;
 import cn.edu.xmu.ooad.util.ResponseCode;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.mapper.BrandPoMapper;
+import com.ooad.good.mapper.GoodsCategoryPoMapper;
 import com.ooad.good.mapper.SpuPoMapper;
 import com.ooad.good.model.bo.Brand;
 import com.ooad.good.model.bo.Spu;
 import com.ooad.good.model.po.BrandPo;
+import com.ooad.good.model.po.GoodsCategoryPo;
 import com.ooad.good.model.po.SpuPo;
 import com.ooad.good.model.po.SpuPoExample;
 import org.slf4j.Logger;
@@ -27,6 +29,9 @@ public class SpuDao {
 
     @Autowired
     private BrandPoMapper brandPoMapper;
+
+    @Autowired
+    private GoodsCategoryPoMapper categoryPoMapper;
 
     /**
      * 店家新建商品spu
@@ -135,6 +140,12 @@ public class SpuDao {
         return retObj;
     }
 
+    /**
+     * 将sku移出品牌
+     * @param spuId
+     * @param brandId
+     * @return
+     */
     public ReturnObject<Spu> removeSpuFromBrand(Long spuId,Long brandId) {
 
         SpuPo spuPo = spuPoMapper.selectByPrimaryKey(spuId);
@@ -154,4 +165,54 @@ public class SpuDao {
         retObj = new ReturnObject<>();
         return retObj;
     }
+
+    /**
+     * 将spu加入分类
+     * @param spuId
+     * @param categoryId
+     * @return
+     */
+    public ReturnObject<Spu> insertSpuToCategory(Long spuId,Long categoryId) {
+
+        SpuPo spuPo = spuPoMapper.selectByPrimaryKey(spuId);
+
+        GoodsCategoryPo categoryPo=categoryPoMapper.selectByPrimaryKey(categoryId);
+        ReturnObject<Spu> retObj = null;
+
+        if (categoryPo == null || spuPo == null) {
+            //商品类目or spu不存在
+            logger.info(" category or spu not exist");
+            retObj= new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
+            return retObj;
+        }
+
+        spuPo.setBrandId(categoryId);
+        logger.info("insertSpuToBrand: successful: " + spuPo.getName() + " insert to " + categoryPo.getName());
+
+        retObj = new ReturnObject<>();
+        return retObj;
+    }
+
+
+    public ReturnObject<Spu> removeSpuFromCategory(Long spuId,Long categoryId) {
+
+        SpuPo spuPo = spuPoMapper.selectByPrimaryKey(spuId);
+        GoodsCategoryPo categoryPo=categoryPoMapper.selectByPrimaryKey(categoryId);
+        ReturnObject<Spu> retObj = null;
+
+        if (categoryPo == null || spuPo == null) {
+            //商品类目or spu不存在
+            logger.info(" category or spu not exist");
+            retObj= new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
+            return retObj;
+        }
+
+        spuPo.setCategoryId(null);
+        logger.info("removeSpuFromCategory: successful: " + spuPo.getName() + " remove from " + categoryPo.getName());
+
+        retObj = new ReturnObject<>();
+        return retObj;
+    }
+
+
 }

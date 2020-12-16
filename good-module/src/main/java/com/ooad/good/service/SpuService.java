@@ -50,9 +50,33 @@ public class SpuService {
         return retObj;
     }
 
+    /**
+     * 将sku移出品牌
+     * @param spuId
+     * @param brandId
+     * @return
+     */
     @Transactional
     public ReturnObject removeSpuFromBrand(Long spuId,Long brandId){
         ReturnObject<Spu>retObj=spuDao.removeSpuFromBrand(spuId,brandId);
+        return retObj;
+    }
+
+    /**
+     * 将spu加入分类
+     * @param spuId
+     * @param categoryId
+     * @return
+     */
+    @Transactional
+    public ReturnObject insertSpuToCategory(Long spuId,Long categoryId){
+        ReturnObject<Spu>retObj=spuDao.insertSpuToCategory(spuId,categoryId);
+        return retObj;
+    }
+
+    @Transactional
+    public ReturnObject removeSpuFromCategory(Long spuId,Long categoryId){
+        ReturnObject<Spu>retObj=spuDao.removeSpuFromCategory(spuId,categoryId);
         return retObj;
     }
 }
