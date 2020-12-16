@@ -1,9 +1,13 @@
 package com.ooad.good.dao;
 
+import cn.edu.xmu.ooad.model.VoObject;
 import cn.edu.xmu.ooad.util.ResponseCode;
 import cn.edu.xmu.ooad.util.ReturnObject;
+import com.ooad.good.mapper.BrandPoMapper;
 import com.ooad.good.mapper.SpuPoMapper;
+import com.ooad.good.model.bo.Brand;
 import com.ooad.good.model.bo.Spu;
+import com.ooad.good.model.po.BrandPo;
 import com.ooad.good.model.po.SpuPo;
 import com.ooad.good.model.po.SpuPoExample;
 import org.slf4j.Logger;
@@ -12,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Repository
@@ -20,15 +25,19 @@ public class SpuDao {
     @Autowired
     private SpuPoMapper spuPoMapper;
 
+    @Autowired
+    private BrandPoMapper brandPoMapper;
+
     /**
      * 店家新建商品spu
+     *
      * @param spu
      * @return
      */
-    public ReturnObject<Spu>insertSpu(Spu spu){
-        SpuPo spuPo=spu.gotSpuPo();
-        ReturnObject<Spu>retObj=null;
-        try{
+    public ReturnObject<Spu> insertSpu(Spu spu) {
+        SpuPo spuPo = spu.gotSpuPo();
+        ReturnObject<Spu> retObj = null;
+        try {
             int ret = spuPoMapper.insertSelective(spuPo);
             if (ret == 0) {
                 //插入失败
@@ -40,8 +49,7 @@ public class SpuDao {
                 spu.setId(spuPo.getId());
                 retObj = new ReturnObject<>(spu);
             }
-        }
-        catch (DataAccessException e) {
+        } catch (DataAccessException e) {
             if (Objects.requireNonNull(e.getMessage()).contains("auth_role.auth_role_name_uindex")) {
                 //若有重复的角色名则新增失败
                 logger.debug("updateRole: have same spu name = " + spuPo.getName());
@@ -51,8 +59,7 @@ public class SpuDao {
                 logger.debug("other sql exception : " + e.getMessage());
                 retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR, String.format("数据库错误：%s", e.getMessage()));
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // 其他Exception错误
             logger.error("other exception : " + e.getMessage());
             retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR, String.format("发生了严重的数据库错误：%s", e.getMessage()));
@@ -62,6 +69,7 @@ public class SpuDao {
 
     /**
      * 店家修改spu
+     *
      * @param spu
      * @return
      */
@@ -72,7 +80,7 @@ public class SpuDao {
         SpuPoExample.Criteria criteria = example.createCriteria();
         criteria.andIdEqualTo(spu.getId());
 
-        try{
+        try {
             int ret = spuPoMapper.updateByExampleSelective(spuPo, example);
 //            int ret = roleMapper.updateByPrimaryKeySelective(rolePo);
             if (ret == 0) {
@@ -84,8 +92,7 @@ public class SpuDao {
                 logger.debug("updateRole: update spu = " + spuPo.toString());
                 retObj = new ReturnObject<>();
             }
-        }
-        catch (DataAccessException e) {
+        } catch (DataAccessException e) {
             if (Objects.requireNonNull(e.getMessage()).contains("auth_role.auth_role_name_uindex")) {
                 //若有重复的角色名则修改失败
                 logger.debug("updateRole: have same spu name = " + spuPo.getName());
@@ -95,8 +102,7 @@ public class SpuDao {
                 logger.debug("other sql exception : " + e.getMessage());
                 retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR, String.format("数据库错误：%s", e.getMessage()));
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             // 其他Exception错误
             logger.error("other exception : " + e.getMessage());
             retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR, String.format("发生了严重的数据库错误：%s", e.getMessage()));
@@ -104,4 +110,48 @@ public class SpuDao {
         return retObj;
     }
 
+    /**
+     * 将spu加入品牌
+     * @param
+     * @return
+     */
+    public ReturnObject<Spu> insertSpuToBrand(Long spuId,Long brandId) {
+
+        SpuPo spuPo = spuPoMapper.selectByPrimaryKey(spuId);
+        BrandPo brandPo = brandPoMapper.selectByPrimaryKey(brandId);
+        ReturnObject<Spu> retObj = null;
+
+        if (brandPo == null || spuPo == null) {
+            //品牌or spu不存在
+            logger.info(" brand or spu not exist");
+           retObj= new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
+           return retObj;
+        }
+
+        spuPo.setBrandId(brandId);
+        logger.info("insertSpuToBrand: successful: " + spuPo.getName() + " insert to " + brandPo.getName());
+
+        retObj = new ReturnObject<>();
+        return retObj;
+    }
+
+    public ReturnObject<Spu> removeSpuFromBrand(Long spuId,Long brandId) {
+
+        SpuPo spuPo = spuPoMapper.selectByPrimaryKey(spuId);
+        BrandPo brandPo = brandPoMapper.selectByPrimaryKey(brandId);
+        ReturnObject<Spu> retObj = null;
+
+        if (brandPo == null || spuPo == null) {
+            //品牌or spu不存在
+            logger.info(" brand or spu not exist");
+            retObj= new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
+            return retObj;
+        }
+
+        spuPo.setBrandId(null);
+        logger.info("removeSpuFromBrand: successful: " + spuPo.getName() + " remove from " + brandPo.getName());
+
+        retObj = new ReturnObject<>();
+        return retObj;
+    }
 }
