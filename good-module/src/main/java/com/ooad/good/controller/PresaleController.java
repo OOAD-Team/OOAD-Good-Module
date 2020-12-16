@@ -1,7 +1,10 @@
 package com.ooad.good.controller;
 
+import cn.edu.xmu.ooad.annotation.Audit;
+import cn.edu.xmu.ooad.model.VoObject;
 import cn.edu.xmu.ooad.util.Common;
 import cn.edu.xmu.ooad.util.ReturnObject;
+import com.github.pagehelper.PageInfo;
 import com.ooad.good.model.bo.Presale;
 import com.ooad.good.model.po.PresaleActivityPo;
 import com.ooad.good.model.vo.PresaleVo;
@@ -39,6 +42,7 @@ public class PresaleController {
      * @param bindingResult
      * @return
      */
+    @Audit
     @PostMapping("/presales")
     public Object insertPresale(@Validated @RequestBody PresaleVo vo, BindingResult bindingResult) {
 
@@ -69,6 +73,7 @@ public class PresaleController {
      * @param bindingResult
      * @return
      */
+    @Audit
     @PutMapping("presales/{id}")
     public Object updatePresale(@PathVariable("id")Long id, @Validated @RequestBody PresaleVo vo,BindingResult bindingResult){
 
@@ -92,5 +97,15 @@ public class PresaleController {
         }
     }
 
+    @Audit
+    @GetMapping("presales")
+    public Object getAllPresales(@RequestParam(required = false,defaultValue = "1") Integer page,
+                               @RequestParam(required = false,defaultValue = "10") Integer pageSize){
+
+        logger.debug("getAllBrands: page = "+ page +"  pageSize ="+pageSize);
+
+        ReturnObject<PageInfo<VoObject>> returnObject =  presaleService.getAllPresales(page, pageSize);
+        return Common.getPageRetObject(returnObject);
+    }
 
 }

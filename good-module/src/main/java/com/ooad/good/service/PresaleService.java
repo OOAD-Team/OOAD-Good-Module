@@ -1,6 +1,8 @@
 package com.ooad.good.service;
 
+import cn.edu.xmu.ooad.model.VoObject;
 import cn.edu.xmu.ooad.util.ReturnObject;
+import com.github.pagehelper.PageInfo;
 import com.ooad.good.controller.PresaleController;
 import com.ooad.good.dao.PresaleDao;
 import com.ooad.good.model.bo.Presale;
@@ -38,6 +40,12 @@ public class PresaleService {
     public ReturnObject updatePresale(Presale presale){
         ReturnObject<Presale>retObj=presaleDao.updatePresale(presale);
         return retObj;
+    }
+
+    @Transactional
+    public ReturnObject<PageInfo<VoObject>> getAllPresales(Integer page, Integer pageSize){
+        return presaleDao.getAllPresales(page,pageSize);
+
     }
 
 }

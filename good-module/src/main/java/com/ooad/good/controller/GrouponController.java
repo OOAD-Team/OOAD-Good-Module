@@ -1,5 +1,6 @@
 package com.ooad.good.controller;
 
+import cn.edu.xmu.ooad.annotation.Audit;
 import cn.edu.xmu.ooad.util.Common;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.model.bo.Groupon;
@@ -36,6 +37,7 @@ public class GrouponController {
      * @param bindingResult
      * @return
      */
+    @Audit
     @PostMapping("/groupons")
     public Object insertGroupon(@Validated @RequestBody GrouponVo vo, BindingResult bindingResult){
 
@@ -66,6 +68,7 @@ public class GrouponController {
      * @param bindingResult
      * @return
      */
+    @Audit
     @PutMapping("/groupons/{id}")
     public Object updateGroupon(@PathVariable("id")Long id,@Validated @RequestBody GrouponVo vo,BindingResult bindingResult){
         //校验前端数据

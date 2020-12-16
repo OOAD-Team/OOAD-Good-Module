@@ -50,10 +50,5 @@ public class CouponService {
         return retObj;
     }
 
-    /**
-    @Transactional
-    public ReturnObject getCoupon(Long id){
 
-    }
-    */
 }

@@ -1,5 +1,6 @@
 package com.ooad.good.service;
 
+import cn.edu.xmu.ooad.model.VoObject;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.dao.SpuDao;
 import com.ooad.good.model.bo.Spu;
@@ -34,6 +35,24 @@ public class SpuService {
     @Transactional
     public ReturnObject updateSpu(Spu spu){
         ReturnObject<Spu>retObj=spuDao.updateSpu(spu);
+        return retObj;
+    }
+
+
+    /**
+     * 将spu加入品牌
+     * @param
+     * @return
+     */
+    @Transactional
+    public ReturnObject insertSpuToBrand(Long spuId,Long brandId){
+        ReturnObject<Spu>retObj=spuDao.insertSpuToBrand(spuId,brandId);
+        return retObj;
+    }
+
+    @Transactional
+    public ReturnObject removeSpuFromBrand(Long spuId,Long brandId){
+        ReturnObject<Spu>retObj=spuDao.removeSpuFromBrand(spuId,brandId);
         return retObj;
     }
 }

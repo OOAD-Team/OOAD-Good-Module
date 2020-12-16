@@ -1,10 +1,16 @@
 package com.ooad.good.dao;
 
+import cn.edu.xmu.ooad.model.VoObject;
 import cn.edu.xmu.ooad.util.ResponseCode;
 import cn.edu.xmu.ooad.util.ReturnObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ooad.good.controller.PresaleController;
 import com.ooad.good.mapper.PresaleActivityPoMapper;
+import com.ooad.good.model.bo.Brand;
 import com.ooad.good.model.bo.Presale;
+import com.ooad.good.model.po.BrandPo;
+import com.ooad.good.model.po.BrandPoExample;
 import com.ooad.good.model.po.PresaleActivityPo;
 import com.ooad.good.model.po.PresaleActivityPoExample;
 import org.slf4j.Logger;
@@ -13,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Repository
@@ -109,4 +117,36 @@ public class PresaleDao {
 
     }
 
+
+
+    public ReturnObject<PageInfo<VoObject>> getAllPresales(Integer page, Integer pageSize) {
+        PresaleActivityPoExample example = new PresaleActivityPoExample();
+        PresaleActivityPoExample.Criteria criteria = example.createCriteria();
+
+        PageHelper.startPage(page, pageSize);
+        List<PresaleActivityPo> Pos = null;
+        try {
+           Pos = presaleActivityPoMapper.selectByExample(example);
+        } catch (DataAccessException e) {
+            logger.error("getAllPresales: DataAccessException:" + e.getMessage());
+            return new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR);
+        }
+
+        List<VoObject> ret = new ArrayList<>(Pos.size());
+        for (PresaleActivityPo po : Pos) {
+            Presale presale = new Presale(po);
+
+            logger.info("getAllBrands: " + presale);
+            ret.add(presale);
+
+
+        }
+        PageInfo<PresaleActivityPo> brandPoPage = PageInfo.of(Pos);
+        PageInfo<VoObject> privPage = new PageInfo<>(ret);
+        privPage.setPages(brandPoPage.getPages());
+        privPage.setPageNum(brandPoPage.getPageNum());
+        privPage.setPageSize(brandPoPage.getPageSize());
+        privPage.setTotal(brandPoPage.getTotal());
+        return new ReturnObject<>(privPage);
+    }
 }
