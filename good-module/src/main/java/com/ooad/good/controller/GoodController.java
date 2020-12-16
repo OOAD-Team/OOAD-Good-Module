@@ -234,7 +234,40 @@ public class GoodController {
         }
     }
 
+    /**
+     * 将spu加入品牌
+     * @param spuId
+     * @param brandId
+     * @return
+     */
+    @Audit
+    @PostMapping("/spus/{spuId}/brands/{id}")
+    Object insertSpuToBrand(@PathVariable("spuId")Long spuId,
+                            @PathVariable("id")Long brandId){
 
+
+        ReturnObject retObject=spuService.insertSpuToBrand(spuId,brandId);
+
+        if(retObject.getData()!=null){
+            return Common.getRetObject(retObject);
+        }else {
+            return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
+        }
+
+    }
+
+    @Audit
+    @DeleteMapping("/spus/{spuId}/brands/{id}")
+    Object removeSpuFromBrand(@PathVariable("spuId")Long spuId,
+                              @PathVariable("id")Long brandId){
+        ReturnObject retObject=spuService.removeSpuFromBrand(spuId,brandId);
+
+        if(retObject.getData()!=null){
+            return Common.getRetObject(retObject);
+        }else {
+            return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
+        }
+    }
 
 
 
@@ -271,5 +304,9 @@ public class GoodController {
             return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
         }
     }
+
+
+
+
 }
 
