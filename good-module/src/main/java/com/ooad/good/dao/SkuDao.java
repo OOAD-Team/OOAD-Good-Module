@@ -3,6 +3,7 @@ package com.ooad.good.dao;
 import cn.edu.xmu.ooad.util.ResponseCode;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.mapper.SkuPoMapper;
+import com.ooad.good.model.bo.FlashSaleItem;
 import com.ooad.good.model.bo.Sku;
 import com.ooad.good.model.po.SkuPo;
 import com.ooad.good.service.PresaleService;
@@ -59,5 +60,30 @@ public class SkuDao {
             retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR, String.format("发生了严重的数据库错误：%s", e.getMessage()));
         }
         return retObj;
+    }
+    /**
+     * 通过skuId查询sku对象
+     * @param skuId
+     * @return
+     */
+    public ReturnObject<Sku> getSkuById(Long skuId){
+        SkuPo po=null;
+        try{
+            po=skuPoMapper.selectByPrimaryKey(skuId);
+        }
+        catch(DataAccessException e) {
+            logger.error("getSkuById: DataAccessException:" + e.getMessage());
+            return new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR);
+        }
+        if(po!=null)
+        {
+            logger.info("getSkuById: " + po);
+            Sku nowSku=new Sku(po);
+            return new ReturnObject<>(nowSku);
+        }
+        else
+        {
+            return new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR);
+        }
     }
 }
