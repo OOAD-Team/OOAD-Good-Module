@@ -3,7 +3,6 @@ package com.ooad.good.dao;
 import cn.edu.xmu.ooad.util.ResponseCode;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.mapper.SkuPoMapper;
-import com.ooad.good.model.bo.FlashSaleItem;
 import com.ooad.good.model.bo.Sku;
 import com.ooad.good.model.po.SkuPo;
 import com.ooad.good.service.PresaleService;
