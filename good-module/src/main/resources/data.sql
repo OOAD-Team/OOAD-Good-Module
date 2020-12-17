@@ -134,6 +134,7 @@ UNLOCK TABLES;
 LOCK TABLES `presale_activity` WRITE;
 /*!40000 ALTER TABLE `presale_activity` DISABLE KEYS */;
 /*!40000 ALTER TABLE `presale_activity` ENABLE KEYS */;
+INSERT INTO `presale_activity` VALUES (1,'wwj',null,null,null,2,null,null,null,null,null,'2020-12-10 22:36:01',null);
 UNLOCK TABLES;
 
 --

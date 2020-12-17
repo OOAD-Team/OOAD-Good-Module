@@ -175,13 +175,12 @@ public class SpuDao {
     public ReturnObject<Spu> insertSpuToCategory(Long spuId,Long categoryId) {
 
         SpuPo spuPo = spuPoMapper.selectByPrimaryKey(spuId);
-
         GoodsCategoryPo categoryPo=categoryPoMapper.selectByPrimaryKey(categoryId);
         ReturnObject<Spu> retObj = null;
 
         if (categoryPo == null || spuPo == null) {
             //商品类目or spu不存在
-            logger.info(" category or spu not exist");
+            logger.info("category or spu not exist");
             retObj= new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
             return retObj;
         }
@@ -194,6 +193,12 @@ public class SpuDao {
     }
 
 
+    /**
+     * 将spu移出分类
+     * @param spuId
+     * @param categoryId
+     * @return
+     */
     public ReturnObject<Spu> removeSpuFromCategory(Long spuId,Long categoryId) {
 
         SpuPo spuPo = spuPoMapper.selectByPrimaryKey(spuId);

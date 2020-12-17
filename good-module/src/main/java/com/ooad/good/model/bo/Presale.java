@@ -12,10 +12,53 @@ import com.ooad.good.model.vo.PresaleRetVo;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 public class Presale implements VoObject {
 
+    public enum PresaleState {
+        DELETE(0, "DELETE"),
+        ONLINE(1, "ONLINE"),
+        OFFLIE(2, "OFFLIE");
+
+
+        private static final Map<Integer, PresaleState> typeMap;
+
+        static { //由类加载机制，静态块初始加载对应的枚举属性到map中，而不用每次取属性时，遍历一次所有枚举值
+            typeMap = new HashMap();
+            for (PresaleState enum1 : values()) {
+                typeMap.put(enum1.code, enum1);
+            }
+        }
+
+        private int code;
+        private String description;
+
+        PresaleState(int code, String description) {
+            this.code = code;
+            this.description = description;
+        }
+
+        public static PresaleState getTypeByCode(Integer code) {
+            return typeMap.get(code);
+        }
+
+        public Integer getCode() {
+            return code;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+    }
+
+
+
+
+    private PresaleState presaleType;
     private Long id;
     private String name;
     private LocalDateTime beginTime;
@@ -41,6 +84,7 @@ public class Presale implements VoObject {
     public PresaleActivityPo gotPresalePo(){
         PresaleActivityPo po=new PresaleActivityPo();
 
+
         po.setId(this.getId());
         po.setName(this.getName());
         po.setBeginTime(this.getBeginTime());
@@ -57,8 +101,13 @@ public class Presale implements VoObject {
         return po;
     }
 
+    /**
+     * po创建bo
+     * @param po
+     */
     public Presale(PresaleActivityPo po){
 
+        this.presaleType=PresaleState.getTypeByCode(po.getState().intValue());
         this.id=po.getId();
         this.name=po.getName();
         this.beginTime=po.getBeginTime();

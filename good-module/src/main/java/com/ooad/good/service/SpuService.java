@@ -74,6 +74,12 @@ public class SpuService {
         return retObj;
     }
 
+    /**
+     * 将spu移出分类
+     * @param spuId
+     * @param categoryId
+     * @return
+     */
     @Transactional
     public ReturnObject removeSpuFromCategory(Long spuId,Long categoryId){
         ReturnObject<Spu>retObj=spuDao.removeSpuFromCategory(spuId,categoryId);

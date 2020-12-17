@@ -245,14 +245,8 @@ public class GoodController {
     Object insertSpuToBrand(@PathVariable("spuId")Long spuId,
                             @PathVariable("id")Long brandId){
 
-
         ReturnObject retObject=spuService.insertSpuToBrand(spuId,brandId);
-
-        if(retObject.getData()!=null){
-            return Common.getRetObject(retObject);
-        }else {
-            return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
-        }
+        return Common.getRetObject(retObject);
 
     }
 
@@ -266,13 +260,10 @@ public class GoodController {
     @DeleteMapping("/spus/{spuId}/brands/{id}")
     Object removeSpuFromBrand(@PathVariable("spuId")Long spuId,
                               @PathVariable("id")Long brandId){
-        ReturnObject retObject=spuService.removeSpuFromBrand(spuId,brandId);
 
-        if(retObject.getData()!=null){
-            return Common.getRetObject(retObject);
-        }else {
-            return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
-        }
+        ReturnObject retObject=spuService.removeSpuFromBrand(spuId,brandId);
+        return Common.getRetObject(retObject);
+
     }
 
     /**
@@ -286,30 +277,25 @@ public class GoodController {
     Object insertSpuToCategory(@PathVariable("spuId")Long spuId,
                             @PathVariable("id")Long categoryId){
 
-
         ReturnObject retObject=spuService.insertSpuToCategory(spuId,categoryId);
-
-        if(retObject.getData()!=null){
-            return Common.getRetObject(retObject);
-        }else {
-            return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
-        }
-
+        return Common.getRetObject(retObject);
     }
 
+    /**
+     * 将spu移出分类
+     * @param spuId
+     * @param categoryId
+     * @return
+     */
     @Audit
     @DeleteMapping("/spus/{spuId}/categories/{id}")
     Object removeSpuFromCategory(@PathVariable("spuId")Long spuId,
                               @PathVariable("id")Long categoryId){
+
         ReturnObject retObject=spuService.removeSpuFromCategory(spuId,categoryId);
+        return Common.getRetObject(retObject);
 
-        if(retObject.getData()!=null){
-            return Common.getRetObject(retObject);
-        }else {
-            return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
-        }
     }
-
 
 
 
@@ -347,6 +333,7 @@ public class GoodController {
             return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
         }
     }
+
 
 
 
