@@ -100,14 +100,11 @@ public class GrouponController {
     @PutMapping("groupons/{id}/onshelves")
     public Object onlineGroupon(@PathVariable("id")Long id){
 
-        logger.debug("onliegroupon: id ="+id);
+        logger.debug("onlineGroupon: id ="+id);
 
         ReturnObject retObject=grouponService.onlineGroupon(id);
-        if (retObject.getData() != null) {
-            return Common.getRetObject(retObject);
-        } else {
-            return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
-        }
+        return Common.getRetObject(retObject);
+
     }
 
 
@@ -120,15 +117,11 @@ public class GrouponController {
     @PutMapping("groupons/{id}/offshelves")
     public Object offlineGroupon(@PathVariable("id")Long id){
 
-        logger.debug("offlinegroupon: id ="+id);
+        logger.debug("offlineGroupon: id ="+id);
 
         ReturnObject retObject=grouponService.offlineGroupon(id);
-        if (retObject.getData() != null) {
-            return Common.getRetObject(retObject);
-        } else {
-            return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
-        }
-    }
+        return Common.getRetObject(retObject);
 
+    }
 
 }

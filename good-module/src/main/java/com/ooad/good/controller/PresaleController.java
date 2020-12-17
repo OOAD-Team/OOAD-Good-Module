@@ -123,14 +123,11 @@ public class PresaleController {
     @PutMapping("presales/{id}/onshelves")
     public Object onlinePresale(@PathVariable("id")Long id){
 
-        logger.debug("onliepresale: id ="+id);
+        logger.debug("onlinePresale: id ="+id);
 
         ReturnObject retObject=presaleService.onlinePresale(id);
-        if (retObject.getData() != null) {
-            return Common.getRetObject(retObject);
-        } else {
-            return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
-        }
+        return Common.getRetObject(retObject);
+
     }
 
     /**
@@ -142,13 +139,10 @@ public class PresaleController {
     @PutMapping("presales/{id}/offshelves")
     public Object offlinePresale(@PathVariable("id")Long id){
 
-        logger.debug("offpresale: id ="+id);
+        logger.debug("offlinePresale: id ="+id);
 
         ReturnObject retObject=presaleService.offlinePresale(id);
-        if (retObject.getData() != null) {
-            return Common.getRetObject(retObject);
-        } else {
-            return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
-        }
+        return Common.getRetObject(retObject);
+
     }
 }

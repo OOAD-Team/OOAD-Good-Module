@@ -3,7 +3,9 @@ package com.ooad.good.dao;
 import cn.edu.xmu.ooad.util.ResponseCode;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.mapper.SkuPoMapper;
+import com.ooad.good.model.bo.Groupon;
 import com.ooad.good.model.bo.Sku;
+import com.ooad.good.model.po.GrouponActivityPo;
 import com.ooad.good.model.po.SkuPo;
 import com.ooad.good.service.PresaleService;
 import org.slf4j.Logger;
@@ -59,5 +61,53 @@ public class SkuDao {
             retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR, String.format("发生了严重的数据库错误：%s", e.getMessage()));
         }
         return retObj;
+    }
+
+    /**
+     * 店家商品上架
+     * @param id
+     * @return
+     */
+    public ReturnObject<Sku>onlineSku(Long id){
+        SkuPo skuPo=skuPoMapper.selectByPrimaryKey(id);
+        ReturnObject<Sku>retObj=null;
+        if(skuPo==null||skuPo.getState()==0){
+            //商品sku不存在或已被删除
+            logger.info("sku not exist");
+            retObj=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
+            return retObj;
+        }
+
+        Byte state=1;
+        skuPo.setState(state);
+        logger.info("OnlineSku: successful: sku name = " + skuPo.getName());
+
+        retObj = new ReturnObject<>();
+        return retObj;
+
+    }
+
+    /**
+     * 店家商品下架
+     * @param id
+     * @return
+     */
+    public ReturnObject<Sku> offlineSku(Long id){
+        SkuPo skuPo=skuPoMapper.selectByPrimaryKey(id);
+        ReturnObject<Sku>retObj=null;
+        if(skuPo==null||skuPo.getState()==0){
+            //团购活动不存在或已被删除
+            logger.info("sku not exist");
+            retObj=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
+            return retObj;
+        }
+
+        Byte state=2;
+        skuPo.setState(state);
+        logger.info("offlineSku: successful: sku name = " + skuPo.getName());
+
+        retObj = new ReturnObject<>();
+        return retObj;
+
     }
 }

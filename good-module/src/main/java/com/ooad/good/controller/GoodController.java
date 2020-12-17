@@ -335,7 +335,37 @@ public class GoodController {
     }
 
 
+    /**
+     * 店家商品上架
+     * @param id
+     * @return
+     */
+    @Audit
+    @PutMapping("skus/{id}/onshelves")
+    public Object onlinePresale(@PathVariable("id")Long id){
 
+        logger.debug("onlineSku: id ="+id);
+
+        ReturnObject retObject=skuService.onlineSku(id);
+        return Common.getRetObject(retObject);
+
+    }
+
+    /**
+     * 店家商品下架
+     * @param id
+     * @return
+     */
+    @Audit
+    @PutMapping("skus/{id}/offshelves")
+    public Object offlinePresale(@PathVariable("id")Long id){
+
+        logger.debug("offlineSku: id ="+id);
+
+        ReturnObject retObject=skuService.offlineSku(id);
+        return Common.getRetObject(retObject);
+
+    }
 
 
 }
