@@ -103,4 +103,38 @@ public class CouponController {
     }
 
 
+    /**
+     * 上线优惠活动
+     * @param id
+     * @return
+     */
+    @Audit
+    @PutMapping("couponactivities/{id}/onshelves")
+    public Object onlinePresale(@PathVariable("id")Long id){
+
+        logger.debug("onlineCouponactivities: id ="+id);
+
+        ReturnObject retObject=couponService.onlineCouponactivity(id);
+        return Common.getRetObject(retObject);
+
+    }
+
+    /**
+     * 下线优惠活动
+     * @param id
+     * @return
+     */
+    @Audit
+    @PutMapping("couponactivities/{id}/offshelves")
+    public Object offlinePresale(@PathVariable("id")Long id){
+
+        logger.debug("offlineCouponactivities: id ="+id);
+
+        ReturnObject retObject=couponService.offlineCouponactivity(id);
+        return Common.getRetObject(retObject);
+
+    }
+
+
+
 }

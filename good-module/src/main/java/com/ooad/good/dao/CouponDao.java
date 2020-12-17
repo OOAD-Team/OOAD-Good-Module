@@ -5,9 +5,11 @@ import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.controller.CouponController;
 import com.ooad.good.mapper.CouponActivityPoMapper;
 import com.ooad.good.model.bo.CouponActivity;
+import com.ooad.good.model.bo.Presale;
 import com.ooad.good.model.po.CouponActivityPo;
 import com.ooad.good.model.po.CouponActivityPoExample;
 import com.ooad.good.model.po.GoodsCategoryPoExample;
+import com.ooad.good.model.po.PresaleActivityPo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +100,11 @@ public class CouponDao {
     }
 
 
+    /**
+     * 管理员修改己方优惠活动
+     * @param couponActivity
+     * @return
+     */
     public ReturnObject<CouponActivity>updateCouponActivity(CouponActivity couponActivity){
 
         CouponActivityPo couponActivityPo=couponActivity.gotCouponActivityPo();
@@ -138,4 +145,51 @@ public class CouponDao {
         return retObj;
     }
 
+
+    /**
+     * 上线优惠活动
+     * @param id
+     * @return
+     */
+    public ReturnObject<CouponActivity>onlineCouponactivity(Long id){
+        CouponActivityPo couponActivityPo=couponActivityPoMapper.selectByPrimaryKey(id);
+        ReturnObject<CouponActivity>retObj=null;
+        if(couponActivityPo==null||couponActivityPo.getState()==0){
+            //优惠活动不存在或已被删除
+            logger.info("couponactivity not exist");
+            retObj=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
+            return retObj;
+        }
+
+        Byte state=1;
+        couponActivityPo.setState(state);
+        logger.info("onlineCouponactivity: successful: couponactivity name = " + couponActivityPo.getName());
+
+        retObj = new ReturnObject<>();
+        return retObj;
+
+    }
+
+    /**
+     * 下线优惠活动
+     * @param id
+     * @return
+     */
+    public ReturnObject<CouponActivity> offlineCouponactivity(Long id){
+        CouponActivityPo couponActivityPo=couponActivityPoMapper.selectByPrimaryKey(id);
+        ReturnObject<CouponActivity>retObj=null;
+        if(couponActivityPo==null||couponActivityPo.getState()==0){
+            //优惠活动不存在或已被删除
+            logger.info("couponactivity not exist");
+            retObj=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
+            return retObj;
+        }
+
+        Byte state=2;
+        couponActivityPo.setState(state);
+        logger.info("offlineCouponactivity: successful: couponactivity name = " + couponActivityPo.getName());
+
+        retObj = new ReturnObject<>();
+        return retObj;
+    }
 }

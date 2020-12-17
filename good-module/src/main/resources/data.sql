@@ -50,6 +50,7 @@ UNLOCK TABLES;
 LOCK TABLES `coupon_activity` WRITE;
 /*!40000 ALTER TABLE `coupon_activity` DISABLE KEYS */;
 /*!40000 ALTER TABLE `coupon_activity` ENABLE KEYS */;
+INSERT INTO `coupon_activity` VALUES (1,'wwj',null,null,null,2,null,null,null,null,null,null,null,'2020-12-10 22:36:01',null,null);
 UNLOCK TABLES;
 
 --
