@@ -125,6 +125,7 @@ UNLOCK TABLES;
 LOCK TABLES `groupon_activity` WRITE;
 /*!40000 ALTER TABLE `groupon_activity` DISABLE KEYS */;
 /*!40000 ALTER TABLE `groupon_activity` ENABLE KEYS */;
+INSERT INTO `groupon_activity` VALUES (1,'ww',null,null,2,null,null,null,'2020-12-10 22:36:01',null);
 UNLOCK TABLES;
 
 --

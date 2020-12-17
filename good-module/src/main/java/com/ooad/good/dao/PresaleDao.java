@@ -196,10 +196,12 @@ public class PresaleDao {
 
         Byte state=2;
         presaleActivityPo.setState(state);
-        logger.info("offlinePresale: successful: " + presaleActivityPo.getName());
+        logger.info("offlinePresale: successful: presale name = " + presaleActivityPo.getName());
 
         retObj = new ReturnObject<>();
         return retObj;
 
     }
+
+
 }
