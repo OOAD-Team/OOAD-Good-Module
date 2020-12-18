@@ -1,5 +1,6 @@
 package com.ooad.good.model.vo;
 
+
 import com.ooad.good.model.bo.Shop;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
