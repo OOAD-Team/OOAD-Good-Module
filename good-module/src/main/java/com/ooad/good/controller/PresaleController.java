@@ -97,6 +97,12 @@ public class PresaleController {
         }
     }
 
+    /**
+     * 查询所有有效的预售活动
+     * @param page
+     * @param pageSize
+     * @return
+     */
     @Audit
     @GetMapping("presales")
     public Object getAllPresales(@RequestParam(required = false,defaultValue = "1") Integer page,
@@ -108,4 +114,35 @@ public class PresaleController {
         return Common.getPageRetObject(returnObject);
     }
 
+    /**
+     * 管理员上线预售活动
+     * @param id
+     * @return
+     */
+    @Audit
+    @PutMapping("presales/{id}/onshelves")
+    public Object onlinePresale(@PathVariable("id")Long id){
+
+        logger.debug("onlinePresale: id ="+id);
+
+        ReturnObject retObject=presaleService.onlinePresale(id);
+        return Common.getRetObject(retObject);
+
+    }
+
+    /**
+     * 管理员下线预售活动
+     * @param id
+     * @return
+     */
+    @Audit
+    @PutMapping("presales/{id}/offshelves")
+    public Object offlinePresale(@PathVariable("id")Long id){
+
+        logger.debug("offlinePresale: id ="+id);
+
+        ReturnObject retObject=presaleService.offlinePresale(id);
+        return Common.getRetObject(retObject);
+
+    }
 }

@@ -245,29 +245,58 @@ public class GoodController {
     Object insertSpuToBrand(@PathVariable("spuId")Long spuId,
                             @PathVariable("id")Long brandId){
 
-
         ReturnObject retObject=spuService.insertSpuToBrand(spuId,brandId);
-
-        if(retObject.getData()!=null){
-            return Common.getRetObject(retObject);
-        }else {
-            return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
-        }
+        return Common.getRetObject(retObject);
 
     }
 
+    /**
+     * 将sku移出品牌
+     * @param spuId
+     * @param brandId
+     * @return
+     */
     @Audit
     @DeleteMapping("/spus/{spuId}/brands/{id}")
     Object removeSpuFromBrand(@PathVariable("spuId")Long spuId,
                               @PathVariable("id")Long brandId){
-        ReturnObject retObject=spuService.removeSpuFromBrand(spuId,brandId);
 
-        if(retObject.getData()!=null){
-            return Common.getRetObject(retObject);
-        }else {
-            return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
-        }
+        ReturnObject retObject=spuService.removeSpuFromBrand(spuId,brandId);
+        return Common.getRetObject(retObject);
+
     }
+
+    /**
+     * 将spu加入分类
+     * @param spuId
+     * @param categoryId
+     * @return
+     */
+    @Audit
+    @PostMapping("/spus/{spuId}/categories/{id}")
+    Object insertSpuToCategory(@PathVariable("spuId")Long spuId,
+                            @PathVariable("id")Long categoryId){
+
+        ReturnObject retObject=spuService.insertSpuToCategory(spuId,categoryId);
+        return Common.getRetObject(retObject);
+    }
+
+    /**
+     * 将spu移出分类
+     * @param spuId
+     * @param categoryId
+     * @return
+     */
+    @Audit
+    @DeleteMapping("/spus/{spuId}/categories/{id}")
+    Object removeSpuFromCategory(@PathVariable("spuId")Long spuId,
+                              @PathVariable("id")Long categoryId){
+
+        ReturnObject retObject=spuService.removeSpuFromCategory(spuId,categoryId);
+        return Common.getRetObject(retObject);
+
+    }
+
 
 
 
@@ -306,6 +335,37 @@ public class GoodController {
     }
 
 
+    /**
+     * 店家商品上架
+     * @param id
+     * @return
+     */
+    @Audit
+    @PutMapping("skus/{id}/onshelves")
+    public Object onlinePresale(@PathVariable("id")Long id){
+
+        logger.debug("onlineSku: id ="+id);
+
+        ReturnObject retObject=skuService.onlineSku(id);
+        return Common.getRetObject(retObject);
+
+    }
+
+    /**
+     * 店家商品下架
+     * @param id
+     * @return
+     */
+    @Audit
+    @PutMapping("skus/{id}/offshelves")
+    public Object offlinePresale(@PathVariable("id")Long id){
+
+        logger.debug("offlineSku: id ="+id);
+
+        ReturnObject retObject=skuService.offlineSku(id);
+        return Common.getRetObject(retObject);
+
+    }
 
 
 }

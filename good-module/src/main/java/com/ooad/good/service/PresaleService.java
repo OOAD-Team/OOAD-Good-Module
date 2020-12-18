@@ -42,10 +42,38 @@ public class PresaleService {
         return retObj;
     }
 
+    /**
+     * 查询所有有效的预售活动
+     * @param page
+     * @param pageSize
+     * @return
+     */
     @Transactional
     public ReturnObject<PageInfo<VoObject>> getAllPresales(Integer page, Integer pageSize){
         return presaleDao.getAllPresales(page,pageSize);
 
     }
 
+
+    /**
+     * 管理员上线预售活动
+     * @param id
+     * @return
+     */
+    @Transactional
+    public ReturnObject onlinePresale(Long id){
+        ReturnObject<Presale>retObj=presaleDao.onlinePresale(id);
+        return  retObj;
+    }
+
+    /**
+     * 管理员下线预售活动
+     * @param id
+     * @return
+     */
+    @Transactional
+    public ReturnObject offlinePresale(Long id){
+        ReturnObject<Presale>retObj=presaleDao.offlinePresale(id);
+        return  retObj;
+    }
 }

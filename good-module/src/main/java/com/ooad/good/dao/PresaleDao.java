@@ -118,7 +118,12 @@ public class PresaleDao {
     }
 
 
-
+    /**
+     * 查询所有有效的预售活动
+     * @param page
+     * @param pageSize
+     * @return
+     */
     public ReturnObject<PageInfo<VoObject>> getAllPresales(Integer page, Integer pageSize) {
         PresaleActivityPoExample example = new PresaleActivityPoExample();
         PresaleActivityPoExample.Criteria criteria = example.createCriteria();
@@ -149,4 +154,54 @@ public class PresaleDao {
         privPage.setTotal(brandPoPage.getTotal());
         return new ReturnObject<>(privPage);
     }
+
+    /**
+     * 管理员上线预售活动
+     * @param id
+     * @return
+     */
+    public ReturnObject<Presale>onlinePresale(Long id){
+        PresaleActivityPo presaleActivityPo=presaleActivityPoMapper.selectByPrimaryKey(id);
+        ReturnObject<Presale>retObj=null;
+        if(presaleActivityPo==null||presaleActivityPo.getState()==0){
+            //预售活动不存在或已被删除
+            logger.info("presale not exist");
+            retObj=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
+            return retObj;
+        }
+
+        Byte state=1;
+        presaleActivityPo.setState(state);
+        logger.info("OnlinePresale: successful: presale name = " + presaleActivityPo.getName());
+
+        retObj = new ReturnObject<>();
+        return retObj;
+
+    }
+
+    /**
+     * 管理员下线预售活动
+     * @param id
+     * @return
+     */
+    public ReturnObject<Presale> offlinePresale(Long id){
+        PresaleActivityPo presaleActivityPo=presaleActivityPoMapper.selectByPrimaryKey(id);
+        ReturnObject<Presale>retObj=null;
+        if(presaleActivityPo==null||presaleActivityPo.getState()==0){
+            //预售活动不存在或已被删除
+            logger.info("presale not exist");
+            retObj=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
+            return retObj;
+        }
+
+        Byte state=2;
+        presaleActivityPo.setState(state);
+        logger.info("offlinePresale: successful: presale name = " + presaleActivityPo.getName());
+
+        retObj = new ReturnObject<>();
+        return retObj;
+
+    }
+
+
 }

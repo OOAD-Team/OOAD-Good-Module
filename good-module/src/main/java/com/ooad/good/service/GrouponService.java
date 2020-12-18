@@ -5,6 +5,7 @@ import com.ooad.good.controller.PresaleController;
 import com.ooad.good.dao.GrouponDao;
 import com.ooad.good.model.bo.CouponActivity;
 import com.ooad.good.model.bo.Groupon;
+import com.ooad.good.model.bo.Presale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,4 +40,29 @@ public class GrouponService {
         ReturnObject<Groupon>retObj=grouponDao.updateGroupon(groupon);
         return retObj;
     }
+
+
+    /**
+     * 管理员上线团购活动
+     * @param id
+     * @return
+     */
+    @Transactional
+    public ReturnObject onlineGroupon(Long id){
+        ReturnObject<Groupon>retObj=grouponDao.onlineGroupon(id);
+        return  retObj;
+    }
+
+    /**
+     * 管理员下线团购活动
+     * @param id
+     * @return
+     */
+    @Transactional
+    public ReturnObject offlineGroupon(Long id){
+        ReturnObject<Groupon>retObj=grouponDao.offlineGroupon(id);
+        return  retObj;
+    }
+
+
 }
