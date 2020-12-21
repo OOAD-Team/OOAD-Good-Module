@@ -18,7 +18,7 @@ public class ShopSimpleRetVo {
 
     public ShopSimpleRetVo(Shop shop)
     {
-        this.state=shop.getState();
+        this.state=shop.getState().getCode();
         this.name=shop.getName();
     }
 }

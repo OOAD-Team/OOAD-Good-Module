@@ -99,4 +99,35 @@ public class FlashSaleService {
         ReturnObject retObj=flashsaleDao.deleteflashSale(id);
         return retObj;
     }
+
+    /**
+     * 管理员修改秒杀活动
+     * @param flashSale
+     * @return
+     */
+    @Transactional
+    public ReturnObject modifyFlashsale(FlashSale flashSale) {
+        ReturnObject retObj=flashsaleDao.modifyFlashSale(flashSale);
+        return retObj;
+    }
+
+    /**
+     * 获取当前时段秒杀活动
+     * @return
+     */
+    public ReturnObject<List> getCurrentFlashsale() {
+        Long timeseqId=getIdBytimeseq();
+        ReturnObject<List> returnId=flashsaleDao.getflashSaleId(timeseqId);
+
+        if(returnId.getCode().equals("RESOURCE_ID_NOTEXIST"))return returnId;
+        List<Long> flashId=returnId.getData();
+        ReturnObject<List> returnObject=flashsaleDao.getflashSaleById(flashId);
+        return returnObject;
+    }
+/**临时创建接口**/
+    private Long getIdBytimeseq() {
+        int a=0;
+        Long i=new Long(a);
+        return i;
+    }
 }

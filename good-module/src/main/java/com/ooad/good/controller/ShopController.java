@@ -86,7 +86,7 @@ public class ShopController {
     public Object insertShop(@Validated @RequestBody ShopVo vo, BindingResult bindingResult,
                              @LoginUser @ApiIgnore @RequestParam(required = false) Long userId,
                              @Depart @ApiIgnore @RequestParam(required = false) Long departId) {
-        logger.debug("insert role by userId:" + userId);
+        logger.debug("insert shop by userId:" + userId);
         //校验前端数据
         Object returnObject = Common.processFieldErrors(bindingResult, httpServletResponse);
         if (null != returnObject) {
@@ -96,8 +96,10 @@ public class ShopController {
         Shop shop = vo.createShop();
         Byte state=0;//默认0为未审核状态，1为未上线状态，2为上线状态,3为审核未通过状态，4为逻辑删除
         shop.setGmtCreate(LocalDateTime.now());
-        shop.setState(state);
+        shop.setGmtModified(LocalDateTime.now());
+        shop.getState().setCode(state);
         ReturnObject retObject = shopService.insertShop(shop);
+
         if (retObject.getData() != null) {
             httpServletResponse.setStatus(HttpStatus.CREATED.value());
             return Common.getRetObject(retObject);

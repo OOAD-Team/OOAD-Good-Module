@@ -1,12 +1,15 @@
 package com.ooad.good.model.bo;
 
+import cn.edu.xmu.ooad.model.VoObject;
 import com.ooad.good.model.po.SkuPo;
+import com.ooad.good.model.vo.ShopRetVo;
+import com.ooad.good.model.vo.SkuRetVo;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class Sku {
+public class Sku implements VoObject {
 
     private Long id;
     private Long goodsSpuId;
@@ -71,5 +74,15 @@ public class Sku {
         po.setState(this.getState());
 
         return po;
+    }
+
+    @Override
+    public Object createVo() {
+        return new SkuRetVo(this);
+    }
+
+    @Override
+    public Object createSimpleVo() {
+        return null;
     }
 }

@@ -8,13 +8,69 @@ import com.ooad.good.model.vo.ShopVo;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Data
 public class Shop implements VoObject {
+
+	static Byte b0=0;
+	static Byte b1=1;
+	static Byte b2=2;
+	static Byte b3=3;
+	static Byte b4=4;
+	/**
+	 * 请求类型
+	 */
+	//默认0为未审核状态，1为未上线状态，2为上线状态,3为审核未通过状态，4为逻辑删除
+	public enum StateType {
+
+		UNCHECK(b0, "未审核"),
+		OFFLINE(b1, "未上线"),
+		ONLINE(b2, "上线"),
+		NOTPASS(b3, "审核未通过"),
+		ISDELETE(b4,"逻辑删除");
+
+		private static final Map<Byte, StateType> typeMap;
+
+		static { //由类加载机制，静态块初始加载对应的枚举属性到map中，而不用每次取属性时，遍历一次所有枚举值
+			typeMap = new HashMap();
+			for (StateType enum1 : values()) {
+				typeMap.put(enum1.code, enum1);
+			}
+		}
+
+		private Byte code;
+		private String description;
+
+		StateType(Byte code, String description) {
+			this.code = code;
+			this.description = description;
+		}
+
+
+		public static StateType getTypeByCode(Byte code) {
+			return typeMap.get(code);
+		}
+
+		public Byte getCode() {
+			return code;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setCode(Byte state)
+		{
+			this.code=state;
+		}
+	}
+
 	private Long id;
 	private String name;
-	private Byte state;
+	private StateType state;
 	private LocalDateTime gmtCreate;
 	private LocalDateTime gmtModified;
 
@@ -28,7 +84,7 @@ public class Shop implements VoObject {
 		po.setId(this.getId());
 		po.setGmtCreate(this.getGmtCreate());
 		po.setGmtModified(LocalDateTime.now());
-		po.setState(this.getState());
+		po.setState(this.getState().getCode());
 		po.setName(vo.getName());
 		return po;
 
@@ -41,7 +97,7 @@ public class Shop implements VoObject {
 	public Shop(ShopPo po){
 		this.id=po.getId();
 		this.name=po.getName();
-		this.state=po.getState();
+		this.state.code=po.getState();
 		this.gmtCreate=po.getGmtCreate();
 		this.gmtModified=po.getGmtModified();
 
@@ -56,7 +112,7 @@ public class Shop implements VoObject {
 		ShopPo po=new ShopPo();
 		po.setId(this.getId());
 		po.setName(this.getName());
-		po.setState(this.getState());
+		po.setState(this.getState().getCode());
 		po.setGmtCreate(this.gmtCreate);
 		po.setGmtModified(this.gmtModified);
 		return po;

@@ -32,7 +32,6 @@ public class ShopDao {
 
     /**
      * 查询店铺状态
-     *
      * @return
      */
     public ReturnObject<List> getAllShopStates() {
@@ -207,6 +206,7 @@ public class ShopDao {
 
 
         /*进行物理删除*/
+        /*
         if(po.getState()==0)
         {
             logger.info("Physically delete shop: id= "+id);
@@ -227,9 +227,9 @@ public class ShopDao {
                         String.format("发生了严重的未知错误：%s", e.getMessage()));
             }
         }
-
+*/
         /*进行逻辑删除*/
-        else{
+       // else{
             logger.info("logically delete shop: id= "+id);
             try {
                 ret=shopMapper.updateByPrimaryKeySelective(newPo);
@@ -247,7 +247,7 @@ public class ShopDao {
                 retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR,
                         String.format("发生了严重的未知错误：%s", e.getMessage()));
             }
-        }
+      //  }
         return retObj;
     }
 

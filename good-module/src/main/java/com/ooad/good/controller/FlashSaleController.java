@@ -123,10 +123,10 @@ public class FlashSaleController {
     })
     @Audit
     @GetMapping("/flashsales/current")
-    public Object getCurentFlashSales(BindingResult bindingResult){
+    public Object getCurentFlashSales(){
 
         logger.debug("getCurrentFlashSales");
-        ReturnObject<List> returnObject =null;//  flashsaleService.getAllFlashsale();
+        ReturnObject<List> returnObject =flashsaleService.getCurrentFlashsale();
         if (returnObject.getCode() == ResponseCode.OK) {
             //logger.info(returnObject.getData().toString());
             return Common.getListRetObject(returnObject);
@@ -275,7 +275,46 @@ public class FlashSaleController {
         ReturnObject returnObject=flashsaleService.offshelvesflashSale(id);
         return Common.decorateReturnObject(returnObject);
     }
+    /**
+     * 管理员修改秒杀活动
+     * @param did
+     * @param id
+     * @param vo
+     * @param bindingResult
+     * @return
+     */
+    @ApiOperation(value = "管理员修改秒杀活动")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="authorization", value="Token", required = true, dataType="String", paramType="header"),
+            @ApiImplicitParam(name="id", required = true, dataType="Integer", paramType="path")
+    })
+    @ApiResponses({
+            @ApiResponse(code = 0, message = "成功"),
+    })
+    @Audit // 需要认证
+    @PutMapping("/shops/{did}/flashsales/{id}/offshelves")
+    public Object modifyflashSale(@PathVariable("did")Long did,@PathVariable("id")Long id,
+                                  @Validated @RequestBody FlashSaleVo vo,
+                                  BindingResult bindingResult){
+        logger.debug("modify flashsale: id =" +id);
+        // 校验前端数据
+        Object retObject = Common.processFieldErrors(bindingResult, httpServletResponse);
+        if (retObject != null) {
+            logger.info("incorrect data received while offshelf flashsale Info id = " + id);
+            return retObject;
+        }
+        FlashSale flashSale = vo.createFlashSale();
+        flashSale.setId(id);
+        flashSale.setGmtModified(LocalDateTime.now());
 
+        ReturnObject returnObject = flashsaleService.modifyFlashsale(flashSale);
+        if (returnObject.getData() != null) {
+            httpServletResponse.setStatus(HttpStatus.CREATED.value());
+            return Common.getRetObject(returnObject);
+        } else {
+            return Common.getNullRetObj(new ReturnObject<>(returnObject.getCode(), returnObject.getErrmsg()), httpServletResponse);
+        }
+    }
     /**
      * 管理员删除秒杀活动
      * @param did

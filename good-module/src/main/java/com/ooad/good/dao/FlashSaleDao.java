@@ -421,4 +421,36 @@ public class FlashSaleDao {
         }
         return retObj;
     }
+
+    /**
+     * 管理员修改秒杀活动
+     * @param flashSale
+     * @return
+     */
+    public ReturnObject modifyFlashSale(FlashSale flashSale) {
+        FlashSalePo flashSalePo = flashSale.gotFlashSalePo();
+        ReturnObject<FlashSale> retObj = null;
+        try {
+            int ret = flashSalePoMapper.updateByPrimaryKeySelective(flashSalePo);
+            if (ret == 0) {
+                //插入失败
+                logger.debug("updateFlashsale: update flashsale fail" + flashSalePo.toString());
+                retObj = new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST, String.format("修改失败：" + flashSalePo));
+            } else {
+                //插入成功
+                logger.debug("updateFlashsale: update flashsale = "+ flashSalePo.toString());
+                flashSale.setId(flashSalePo.getId());
+                retObj = new ReturnObject<>(flashSale);
+            }
+        } catch (DataAccessException e) {
+            // 数据库错误
+            logger.debug("other sql exception : " + e.getMessage());
+            retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR, String.format("数据库错误：%s", e.getMessage()));
+        } catch (Exception e) {
+            // 其他Exception错误
+            logger.error("other exception : " + e.getMessage());
+            retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR, String.format("发生了严重的数据库错误：%s", e.getMessage()));
+        }
+        return retObj;
+    }
 }
