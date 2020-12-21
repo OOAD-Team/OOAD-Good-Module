@@ -89,4 +89,39 @@ public class GrouponController {
             return Common.getNullRetObj(new ReturnObject<>(retObject.getCode(), retObject.getErrmsg()), httpServletResponse);
         }
     }
+
+
+    /**
+     * 管理员上线团购活动
+     * @param id
+     * @return
+     */
+    @Audit
+    @PutMapping("groupons/{id}/onshelves")
+    public Object onlineGroupon(@PathVariable("id")Long id){
+
+        logger.debug("onlineGroupon: id ="+id);
+
+        ReturnObject retObject=grouponService.onlineGroupon(id);
+        return Common.getRetObject(retObject);
+
+    }
+
+
+    /**
+     * 管理员下线团购活动
+     * @param id
+     * @return
+     */
+    @Audit
+    @PutMapping("groupons/{id}/offshelves")
+    public Object offlineGroupon(@PathVariable("id")Long id){
+
+        logger.debug("offlineGroupon: id ="+id);
+
+        ReturnObject retObject=grouponService.offlineGroupon(id);
+        return Common.getRetObject(retObject);
+
+    }
+
 }

@@ -4,6 +4,7 @@ import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.controller.CouponController;
 import com.ooad.good.dao.CouponDao;
 import com.ooad.good.model.bo.CouponActivity;
+import com.ooad.good.model.bo.Presale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,4 +52,25 @@ public class CouponService {
     }
 
 
+    /**
+     * 上线优惠活动
+     * @param id
+     * @return
+     */
+    @Transactional
+    public ReturnObject onlineCouponactivity(Long id){
+        ReturnObject<CouponActivity>retObj=couponDao.onlineCouponactivity(id);
+        return  retObj;
+    }
+
+    /**
+     * 下线优惠活动
+     * @param id
+     * @return
+     */
+    @Transactional
+    public ReturnObject offlineCouponactivity(Long id){
+        ReturnObject<CouponActivity>retObj=couponDao.offlineCouponactivity(id);
+        return  retObj;
+    }
 }

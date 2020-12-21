@@ -2,7 +2,6 @@ package com.ooad.good.controller;
 
 import cn.edu.xmu.ooad.annotation.Audit;
 import cn.edu.xmu.ooad.util.Common;
-import cn.edu.xmu.ooad.util.ResponseCode;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.model.bo.CouponActivity;
 import com.ooad.good.model.vo.CouponActivityVo;
@@ -103,14 +102,39 @@ public class CouponController {
         }
     }
 
-    /**
-    @Audit
-    @PostMapping("/couponactivities/{id}/usercoupons")
-    public Object getCoupon(@PathVariable("id")Long id ){
-        logger.debug("get coupon: couponactivity_id ="+id);
 
+    /**
+     * 上线优惠活动
+     * @param id
+     * @return
+     */
+    @Audit
+    @PutMapping("couponactivities/{id}/onshelves")
+    public Object onlinePresale(@PathVariable("id")Long id){
+
+        logger.debug("onlineCouponactivities: id ="+id);
+
+        ReturnObject retObject=couponService.onlineCouponactivity(id);
+        return Common.getRetObject(retObject);
 
     }
-*/
+
+    /**
+     * 下线优惠活动
+     * @param id
+     * @return
+     */
+    @Audit
+    @PutMapping("couponactivities/{id}/offshelves")
+    public Object offlinePresale(@PathVariable("id")Long id){
+
+        logger.debug("offlineCouponactivities: id ="+id);
+
+        ReturnObject retObject=couponService.offlineCouponactivity(id);
+        return Common.getRetObject(retObject);
+
+    }
+
+
 
 }

@@ -4,8 +4,10 @@ import cn.edu.xmu.ooad.util.ResponseCode;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.mapper.GrouponActivityPoMapper;
 import com.ooad.good.model.bo.Groupon;
+import com.ooad.good.model.bo.Presale;
 import com.ooad.good.model.po.GrouponActivityPo;
 import com.ooad.good.model.po.GrouponActivityPoExample;
+import com.ooad.good.model.po.PresaleActivityPo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,5 +103,54 @@ public class GrouponDao {
             retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR, String.format("发生了严重的数据库错误：%s", e.getMessage()));
         }
         return retObj;
+    }
+
+
+    /**
+     * 管理员上线团购活动
+     * @param id
+     * @return
+     */
+    public ReturnObject<Groupon>onlineGroupon(Long id){
+        GrouponActivityPo grouponActivityPo=grouponActivityPoMapper.selectByPrimaryKey(id);
+        ReturnObject<Groupon>retObj=null;
+        if(grouponActivityPo==null||grouponActivityPo.getState()==0){
+            //团购活动不存在或已被删除
+            logger.info("groupon not exist");
+            retObj=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
+            return retObj;
+        }
+
+        Byte state=1;
+        grouponActivityPo.setState(state);
+        logger.info("OnlineGroupon: successful: groupon name = " + grouponActivityPo.getName());
+
+        retObj = new ReturnObject<>();
+        return retObj;
+
+    }
+
+    /**
+     * 管理员下线团购活动
+     * @param id
+     * @return
+     */
+    public ReturnObject<Groupon> offlineGroupon(Long id){
+        GrouponActivityPo grouponActivityPo=grouponActivityPoMapper.selectByPrimaryKey(id);
+        ReturnObject<Groupon>retObj=null;
+        if(grouponActivityPo==null||grouponActivityPo.getState()==0){
+            //团购活动不存在或已被删除
+            logger.info("groupon not exist");
+            retObj=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
+            return retObj;
+        }
+
+        Byte state=2;
+        grouponActivityPo.setState(state);
+        logger.info("offlineGroupon: successful: groupon name = " + grouponActivityPo.getName());
+
+        retObj = new ReturnObject<>();
+        return retObj;
+
     }
 }
