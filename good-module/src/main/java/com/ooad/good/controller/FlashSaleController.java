@@ -292,7 +292,7 @@ public class FlashSaleController {
             @ApiResponse(code = 0, message = "成功"),
     })
     @Audit // 需要认证
-    @PutMapping("/shops/{did}/flashsales/{id}/offshelves")
+    @PutMapping("flashsales/{id}")
     public Object modifyflashSale(@PathVariable("did")Long did,@PathVariable("id")Long id,
                                   @Validated @RequestBody FlashSaleVo vo,
                                   BindingResult bindingResult){
