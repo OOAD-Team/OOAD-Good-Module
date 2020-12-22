@@ -13,12 +13,12 @@ public class ShopSimpleRetVo {
     @ApiModelProperty(value="店铺名称")
     private String name;
 
-    @ApiModelProperty(value="店铺状态")
-    private Byte state;
+    @ApiModelProperty(value="店铺id")
+    private Long id;
 
     public ShopSimpleRetVo(Shop shop)
     {
-        this.state=shop.getState().getCode();
         this.name=shop.getName();
+        this.id=shop.getId();
     }
 }

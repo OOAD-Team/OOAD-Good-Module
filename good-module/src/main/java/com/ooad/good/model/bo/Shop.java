@@ -120,7 +120,13 @@ public class Shop implements VoObject {
 
 	@Override
 	public Object createVo() {
-		return new ShopRetVo(this);
+		ShopRetVo shopRetVo = new ShopRetVo();
+		shopRetVo.setId(this.id);
+		shopRetVo.setName(this.name);
+		shopRetVo.setState(this.state.getCode());
+		shopRetVo.setGmtCreate(this.gmtCreate.toString());
+		shopRetVo.setGmtModified(this.gmtModified.toString());
+		return shopRetVo;
 	}
 
 	@Override

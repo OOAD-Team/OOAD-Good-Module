@@ -56,6 +56,7 @@ public class ShopController {
     @GetMapping("/shops/states")
     public Object getAllShopStates(){
 
+        Shop.StateType stateType []=Shop.StateType.class.getEnumConstants();
         logger.debug("getAllShops");
         ReturnObject<List> returnObject =  shopService.getAllShopStates();
         if (returnObject.getCode() == ResponseCode.OK) {
@@ -199,7 +200,7 @@ public class ShopController {
             logger.info("incorrect data received while modifyShopInfo id = " + id);
             return returnObject;
         }
-            return shopService.auditShopInfo(newid,vo.isConclusion());
+            return shopService.auditShopInfo(newid,vo.getConclusion());
     }
 
     /**

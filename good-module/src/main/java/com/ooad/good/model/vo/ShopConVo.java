@@ -8,5 +8,5 @@ import lombok.Data;
  */
 @Data
 public class ShopConVo {
-    private boolean conclusion;
+    private Boolean conclusion;
 }

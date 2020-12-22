@@ -34,6 +34,7 @@ public class ShopDao {
      * 查询店铺状态
      * @return
      */
+    /*
     public ReturnObject<List> getAllShopStates() {
         ShopPoExample example = new ShopPoExample();
         ShopPoExample.Criteria criteria = example.createCriteria();
