@@ -8,7 +8,7 @@ import cn.edu.xmu.oomall.order.service.IOrderService;
 import com.github.pagehelper.PageInfo;
 import com.ooad.good.dao.CommentDao;
 import com.ooad.good.model.bo.Comment;
-import com.ooad.good.model.vo.CommentRetVo;
+import com.ooad.good.model.vo.comment.CommentRetVo;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

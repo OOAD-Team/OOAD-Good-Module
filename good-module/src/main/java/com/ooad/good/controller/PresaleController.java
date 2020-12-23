@@ -6,8 +6,7 @@ import cn.edu.xmu.ooad.util.Common;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.github.pagehelper.PageInfo;
 import com.ooad.good.model.bo.Presale;
-import com.ooad.good.model.po.PresaleActivityPo;
-import com.ooad.good.model.vo.PresaleVo;
+import com.ooad.good.model.vo.presale.PresaleVo;
 import com.ooad.good.service.PresaleService;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
@@ -18,13 +17,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.naming.Binding;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 
 @Api(value="预售服务",tags="presale")
 @RestController
-@RequestMapping(value = "/presale", produces = "application/json;charset=UTF-8")
+@RequestMapping(value = "/goods", produces = "application/json;charset=UTF-8")
 public class PresaleController {
 
     private  static  final Logger logger = LoggerFactory.getLogger(PresaleController.class);
@@ -35,6 +33,11 @@ public class PresaleController {
     @Autowired
     private HttpServletResponse httpServletResponse;
 
+    /**
+     *  1
+     * 获得预售活动的所有状态
+     * @return
+     */
 
     /**
      * 管理员新增sku预售活动
@@ -161,4 +164,5 @@ public class PresaleController {
         return Common.getRetObject(retObject);
 
     }
+    
 }

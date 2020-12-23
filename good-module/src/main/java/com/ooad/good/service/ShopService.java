@@ -3,7 +3,7 @@ package com.ooad.good.service;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.dao.ShopDao;
 import com.ooad.good.model.bo.Shop;
-import com.ooad.good.model.vo.ShopVo;
+import com.ooad.good.model.vo.shop.ShopVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

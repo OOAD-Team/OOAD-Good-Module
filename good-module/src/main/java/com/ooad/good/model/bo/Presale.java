@@ -6,9 +6,7 @@ package com.ooad.good.model.bo;
 
 import cn.edu.xmu.ooad.model.VoObject;
 import com.ooad.good.model.po.PresaleActivityPo;
-import com.ooad.good.model.vo.BrandRetVo;
-import com.ooad.good.model.vo.BrandSimpleRetVo;
-import com.ooad.good.model.vo.PresaleRetVo;
+import com.ooad.good.model.vo.brand.BrandSimpleRetVo;
 import lombok.Data;
 
 import java.time.LocalDateTime;

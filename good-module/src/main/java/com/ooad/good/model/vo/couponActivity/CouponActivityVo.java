@@ -1,4 +1,4 @@
-package com.ooad.good.model.vo;
+package com.ooad.good.model.vo.couponActivity;
 
 import com.ooad.good.model.bo.CouponActivity;
 import lombok.Data;

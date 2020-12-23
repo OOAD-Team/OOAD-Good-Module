@@ -1,4 +1,4 @@
-package com.ooad.good.model.vo;
+package com.ooad.good.model.vo.spu;
 
 import com.ooad.good.model.bo.Spu;
 import lombok.Data;

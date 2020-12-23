@@ -7,14 +7,11 @@ import cn.edu.xmu.ooad.util.ResponseCode;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.sardine.model.Privilege;
 
 import com.ooad.good.mapper.BrandPoMapper;
 import com.ooad.good.model.bo.Brand;
-import com.ooad.good.model.bo.Category;
 import com.ooad.good.model.po.BrandPo;
 import com.ooad.good.model.po.BrandPoExample;
-import com.ooad.good.model.vo.BrandVo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

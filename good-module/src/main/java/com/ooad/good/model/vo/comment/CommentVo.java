@@ -1,4 +1,4 @@
-package com.ooad.good.model.vo;
+package com.ooad.good.model.vo.comment;
 
 import com.ooad.good.model.bo.Comment;
 import lombok.Data;
