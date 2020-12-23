@@ -6,7 +6,6 @@ import com.ooad.good.mapper.ShopPoMapper;
 import com.ooad.good.model.bo.Shop;
 import com.ooad.good.model.po.ShopPo;
 import com.ooad.good.model.po.ShopPoExample;
-import com.ooad.good.model.vo.shop.ShopSimpleRetVo;
 import com.ooad.good.model.vo.shop.ShopVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +14,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @Author: Chaoyang Deng
@@ -29,12 +26,14 @@ public class ShopDao {
 
     @Autowired
     private ShopPoMapper shopMapper;
+    @Autowired
+    private SpuDao spuDao;
 
     /**
      * 查询店铺状态
-     *
      * @return
      */
+    /*
     public ReturnObject<List> getAllShopStates() {
         ShopPoExample example = new ShopPoExample();
         ShopPoExample.Criteria criteria = example.createCriteria();
@@ -94,15 +93,9 @@ public class ShopDao {
                 retObj = new ReturnObject<>(shop);
             }
         } catch (DataAccessException e) {
-            if (Objects.requireNonNull(e.getMessage()).contains("shop.shop_name_uindex")) {
-                //若有重复的商铺名则新增失败
-                logger.debug("updateShop: have same shop name = " + shopPo.getName());
-                retObj = new ReturnObject<>(ResponseCode.ROLE_REGISTERED, String.format("品牌名重复：" + shopPo.getName()));
-            } else {
                 // 其他数据库错误
                 logger.debug("other sql exception : " + e.getMessage());
                 retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR, String.format("数据库错误：%s", e.getMessage()));
-            }
         } catch (Exception e) {
             // 其他Exception错误
             logger.error("other exception : " + e.getMessage());
@@ -118,16 +111,23 @@ public class ShopDao {
      */
     public ReturnObject<Object> modifyShopByVo(Long id, ShopVo shopVo) {
         // 查询密码等资料以计算新签名
-        ShopPo orig = shopMapper.selectByPrimaryKey(id);
+        ShopPo orig=new ShopPo();
+        try {
+            orig = shopMapper.selectByPrimaryKey(id);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         // 不修改已被逻辑废弃的账户
-        if (orig == null ||orig.getState()==4) {
+        if (orig == null ||orig.getState()==3) {
             logger.info("用户不存在或已被删除：id = " + id);
             return new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
         }
         else if(orig.getState()!=0||orig.getState()!=1)
         {
             logger.info("店铺当前状态无法被修改：id = " + id);
-            return new ReturnObject<>(ResponseCode.USER_HASSHOP);
+            return new ReturnObject<>(ResponseCode.SHOP_STATENOTALLOW);
         }
 
         // 构造 User 对象以计算签名
@@ -136,20 +136,13 @@ public class ShopDao {
 
         // 更新数据库
         ReturnObject<Object> retObj;
-        int ret;
-        try {
-            ret = shopMapper.updateByPrimaryKeySelective(po);
+        try { shopMapper.updateByPrimaryKeySelective(po);
         } catch (DataAccessException e) {
             // 如果发生 Exception，判断是邮箱还是啥重复错误
-            if (Objects.requireNonNull(e.getMessage()).contains("shop.shop_name_uindex")) {
-                logger.info("名字重复：" + shopVo.getName());
-                retObj = new ReturnObject<>(ResponseCode.MOBILE_REGISTERED);
-            } else {
                 // 其他情况属未知错误
                 logger.error("数据库错误：" + e.getMessage());
                 retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR,
                         String.format("发生了严重的数据库错误：%s", e.getMessage()));
-            }
             return retObj;
         } catch (Exception e) {
             // 其他 Exception 即属未知错误
@@ -157,14 +150,8 @@ public class ShopDao {
             return new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR,
                     String.format("发生了严重的未知错误：%s", e.getMessage()));
         }
-        // 检查更新有否成功
-        if (ret == 0) {
-            logger.info("用户不存在或已被删除：id = " + id);
-            retObj = new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
-        } else {
             logger.info("用户 id = " + id + " 的资料已更新");
-            retObj = new ReturnObject<>();
-        }
+            retObj = new ReturnObject<>(ResponseCode.OK);
         return retObj;
     }
 
@@ -185,7 +172,7 @@ public class ShopDao {
             logger.error("getShop id= ",id," : DataAccessException:" + e.getMessage());
             return new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR);
         }
-        if(po==null||po.getState()==4)
+        if(po==null||po.getState()==3)
         {
             logger.info("商铺不存在或已被删除：id = " + id);
             return new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
@@ -193,11 +180,11 @@ public class ShopDao {
         else if(po.getState()!=1||po.getState()!=2)
         {
             logger.info("店铺当前状态无法被关闭：id = " + id);
-            return new ReturnObject<>(ResponseCode.USER_HASSHOP);
+            return new ReturnObject<>(ResponseCode.SHOP_STATENOTALLOW);
         }
 
         int ret;
-        Byte state=4;
+        Byte state=3;
         ShopPo newPo=new ShopPo();
         newPo.setState(state);
         newPo.setId(id);
@@ -207,6 +194,7 @@ public class ShopDao {
 
 
         /*进行物理删除*/
+        /*
         if(po.getState()==0)
         {
             logger.info("Physically delete shop: id= "+id);
@@ -227,9 +215,9 @@ public class ShopDao {
                         String.format("发生了严重的未知错误：%s", e.getMessage()));
             }
         }
-
+*/
         /*进行逻辑删除*/
-        else{
+       // else{
             logger.info("logically delete shop: id= "+id);
             try {
                 ret=shopMapper.updateByPrimaryKeySelective(newPo);
@@ -241,13 +229,23 @@ public class ShopDao {
                 logger.error("数据库错误：" + e.getMessage());
                 retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR,
                         String.format("发生了严重的数据库错误：%s", e.getMessage()));
+                return retObj;
             } catch (Exception e) {
                 // 属未知错误
                 logger.error("严重错误：" + e.getMessage());
                 retObj = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR,
                         String.format("发生了严重的未知错误：%s", e.getMessage()));
+                return retObj;
+            }
+        //级联删除,若是当前店铺下有相应spu时一并删除
+        List<Long> spuiId = spuDao.getAllSpuIdByShopId(id).getData();
+        if(spuiId!=null){
+            for(Long i : spuiId) {
+                spuDao.deleteGoodsSpu(id,i);
             }
         }
+            retObj=new ReturnObject<>(ResponseCode.OK);
+      //  }
         return retObj;
     }
 
@@ -256,7 +254,7 @@ public class ShopDao {
      * @param id
      * @return
      */
-    public ReturnObject auditShopInfo(Long id,boolean conJudge) {
+    public ReturnObject auditShopInfo(Long id,Boolean conJudge) {
         ShopPo po=new ShopPo();
         ReturnObject<Object> retObj = null;
         ShopPoExample shopPo = new  ShopPoExample();
@@ -264,11 +262,11 @@ public class ShopDao {
         criteria.andIdEqualTo(id);
         try {
             po = shopMapper.selectByPrimaryKey(id);
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
             logger.error("getShop id= ",id," : DataAccessException:" + e.getMessage());
             return new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR);
         }
-        if(po==null||po.getState()==4)
+        if(po==null||po.getState()==3)
         {
             logger.info("店铺不存在或已被删除：id = " + id);
             return new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
@@ -276,12 +274,12 @@ public class ShopDao {
         else if(po.getState()!=0)
         {
             logger.info("店铺不处于待审核状态：id = " + id);
-            return new ReturnObject<>(ResponseCode.USER_HASSHOP);
+            return new ReturnObject<>(ResponseCode.SHOP_STATENOTALLOW);
         }
 
         int ret;
         Byte state;
-        if(conJudge) state=1;
+        if(conJudge) state=2;//通过审核进行上线
         else state=4;
         ShopPo newPo=new ShopPo();
         newPo.setState(state);
@@ -293,10 +291,10 @@ public class ShopDao {
         try {
             ret=shopMapper.updateByPrimaryKeySelective(newPo);
             if(conJudge)
-            logger.info("店铺通过审核,店铺 id = " + id + " 的状态修改为 " + newPo.getState());
+            logger.info("店铺通过审核,店铺 id = " + id + " 的状态修改为 " + Shop.StateType.getTypeByCode(newPo.getState()).getDescription());
             else
-                logger.info("店铺未通过审核，店铺 id = " + id + " 的状态修改为 " + newPo.getState());
-            retObj = new ReturnObject<>();
+                logger.info("店铺未通过审核，店铺 id = " + id + " 的状态修改为 " + Shop.StateType.getTypeByCode(newPo.getState()).getDescription());
+            retObj = new ReturnObject<>(ResponseCode.OK);
         }
         catch (DataAccessException e) {
             // 数据库错误
@@ -324,11 +322,11 @@ public class ShopDao {
         criteria.andIdEqualTo(id);
         try {
             po = shopMapper.selectByPrimaryKey(id);
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
             logger.error("getShop id= ",id," : DataAccessException:" + e.getMessage());
             return new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR);
         }
-        if(po==null||po.getState()==4)
+        if(po==null||po.getState()==3)
         {
             logger.info("店铺不存在或已被删除：id = " + id);
             return new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
@@ -350,8 +348,8 @@ public class ShopDao {
         logger.info("onshelves shop: id= "+id);
         try {
             ret=shopMapper.updateByPrimaryKeySelective(newPo);
-                logger.info("店铺 id = " + id + " 的状态修改为 " + newPo.getState());
-                retObj = new ReturnObject<>();
+                logger.info("店铺 id = " + id + " 的状态修改为 " + Shop.StateType.getTypeByCode(newPo.getState()).getDescription());
+                retObj = new ReturnObject<>(ResponseCode.OK);
         }
         catch (DataAccessException e) {
             // 数据库错误
@@ -380,11 +378,11 @@ public class ShopDao {
         criteria.andIdEqualTo(id);
         try {
             po = shopMapper.selectByPrimaryKey(id);
-        } catch (DataAccessException e) {
+        } catch (Exception e) {
             logger.error("getShop id= ",id," : DataAccessException:" + e.getMessage());
             return new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR);
         }
-        if(po==null||po.getState()==4)
+        if(po==null||po.getState()==3)
         {
             logger.info("店铺不存在或已被删除：id = " + id);
             return new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
@@ -406,8 +404,8 @@ public class ShopDao {
         logger.info("offshelves shop: id= "+id);
         try {
             ret=shopMapper.updateByPrimaryKeySelective(newPo);
-            logger.info("店铺 id = " + id + " 的状态修改为 " + newPo.getState());
-            retObj = new ReturnObject<>();
+            logger.info("店铺 id = " + id + " 的状态修改为 " + Shop.StateType.getTypeByCode(newPo.getState()).getDescription());
+            retObj = new ReturnObject<>(ResponseCode.OK);
         }
         catch (DataAccessException e) {
             // 数据库错误
