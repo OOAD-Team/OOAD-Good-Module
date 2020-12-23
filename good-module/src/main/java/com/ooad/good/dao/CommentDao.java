@@ -15,7 +15,7 @@ import com.ooad.good.model.po.CommentPo;
 import com.ooad.good.model.po.CommentPoExample;
 import com.ooad.good.model.po.SkuPo;
 import com.ooad.good.model.vo.comment.CommentRetVo;
-import com.ooad.good.model.vo.comment.Customer;
+import com.ooad.good.model.vo.Customer;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

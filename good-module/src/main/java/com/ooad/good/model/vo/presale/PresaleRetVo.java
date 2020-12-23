@@ -1,7 +1,7 @@
 package com.ooad.good.model.vo.presale;
 
-import com.ooad.good.model.bo.Brand;
-import com.ooad.good.model.bo.Presale;
+import cn.edu.xmu.oomall.goods.model.SimpleGoodsSkuDTO;
+import cn.edu.xmu.oomall.goods.model.SimpleShopDTO;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -9,21 +9,22 @@ import java.time.LocalDateTime;
 @Data
 public class PresaleRetVo {
 
-    private Long id;
-
-    private String name;
-
-
-
-
-
-    /**
-     * bo对象构建vo对象
-     * @param presale
-     */
-    public PresaleRetVo(Presale presale){
-        this.id=presale.getId();
-        this.name=presale.getName();
-
+    Long id;
+    String name;
+    LocalDateTime beginTime;
+    LocalDateTime endTime;
+    LocalDateTime payTime;
+    Byte state;
+    Integer quantity;
+    Long advancePayPrice;
+    Long restPayPrice;
+    LocalDateTime gmtCreate;
+    LocalDateTime gmtModified;
+    SimpleGoodsSkuDTO goodsSku;
+    SimpleShopDTO shop;
+    
+    public PresaleRetVo(){
+        
     }
+   
 }

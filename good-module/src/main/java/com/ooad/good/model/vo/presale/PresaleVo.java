@@ -1,50 +1,34 @@
 package com.ooad.good.model.vo.presale;
 
-import com.ooad.good.model.bo.Presale;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
 public class PresaleVo {
+    @NotBlank
+    @NotNull
+    String name;
 
-    @NotNull(message = "预售活动名称不能为空")
-    private String name;
+    @Min(0)
+    Long advancePayPrice;
+    @Min(0)
+    Long restPayPrice;
+    @Min(0)
+    Integer quantity;
 
-    @NotNull(message = "预售活动开始时间不能为空")
-    private LocalDateTime beginTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    LocalDateTime beginTime;
 
-    @NotNull(message = "预售活动支付时间不能为空")
-    private LocalDateTime payTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    LocalDateTime endTime;
 
-    @NotNull(message = "预售活动结束时间不能为空")
-    private LocalDateTime endTime;
-
-    @NotNull(message = "预售活动数量不能为空")
-    private Integer quantity;
-
-    @NotNull(message = "预售活动定金不能为空")
-    private Long advancePayPrice;
-
-    @NotNull(message = "预售活动尾款不能为空")
-    private Long restPayPrice;
-
-    /**
-     * vo构造bo
-     * @return
-     */
-    public Presale createPresale(){
-        Presale presale=new Presale();
-        presale.setName(this.name);
-        presale.setBeginTime(this.beginTime);
-        presale.setPayTime(this.payTime);
-        presale.setEndTime(this.endTime);
-        presale.setQuantity(this.quantity);
-        presale.setAdvancePayPrice(this.advancePayPrice);
-        presale.setRestPayPrice(this.restPayPrice);
-
-        return presale;
-    }
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    LocalDateTime payTime;
 
 }
+

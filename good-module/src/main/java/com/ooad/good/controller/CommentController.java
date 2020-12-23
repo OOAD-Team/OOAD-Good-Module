@@ -72,6 +72,7 @@ public class CommentController {
                                 @Validated @RequestBody CommentVo vo, BindingResult bindingResult){
         logger.info("insertSkuComment: commentId");
 
+        //校验前端数据
         Object returnObject = Common.processFieldErrors(bindingResult, httpServletResponse);
         if (null != returnObject) {
             logger.debug("validate fail");

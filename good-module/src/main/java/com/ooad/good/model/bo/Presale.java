@@ -5,58 +5,18 @@ package com.ooad.good.model.bo;
  */
 
 import cn.edu.xmu.ooad.model.VoObject;
+import cn.edu.xmu.oomall.goods.model.SimpleGoodsSkuDTO;
+import cn.edu.xmu.oomall.goods.model.SimpleShopDTO;
 import com.ooad.good.model.po.PresaleActivityPo;
-import com.ooad.good.model.vo.brand.BrandSimpleRetVo;
+import com.ooad.good.model.vo.presale.PresaleRetVo;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 @Data
 public class Presale implements VoObject {
 
-    public enum PresaleState {
-        DELETE(0, "OFFLINE"),
-        ONLINE(1, "ONLINE"),
-        OFFLIE(2, "DELETE");
 
-
-        private static final Map<Integer, PresaleState> typeMap;
-
-        static { //由类加载机制，静态块初始加载对应的枚举属性到map中，而不用每次取属性时，遍历一次所有枚举值
-            typeMap = new HashMap();
-            for (PresaleState enum1 : values()) {
-                typeMap.put(enum1.code, enum1);
-            }
-        }
-
-        private int code;
-        private String description;
-
-        PresaleState(int code, String description) {
-            this.code = code;
-            this.description = description;
-        }
-
-        public static PresaleState getTypeByCode(Integer code) {
-            return typeMap.get(code);
-        }
-
-        public Integer getCode() {
-            return code;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-    }
-
-
-
-
-    private PresaleState presaleType;
     private Long id;
     private String name;
     private LocalDateTime beginTime;
@@ -71,6 +31,8 @@ public class Presale implements VoObject {
     private LocalDateTime gmtCreate;
     private LocalDateTime gmtModified;
 
+    SimpleGoodsSkuDTO simpleGoodsSkuDTO;
+    SimpleShopDTO simpleShopDTO;
     public Presale(){
 
     }
@@ -103,9 +65,8 @@ public class Presale implements VoObject {
      * po创建bo
      * @param po
      */
-    public Presale(PresaleActivityPo po){
-
-        this.presaleType=PresaleState.getTypeByCode(po.getState().intValue());
+    public Presale(PresaleActivityPo po,SimpleGoodsSkuDTO simpleGoodsSkuDTO,SimpleShopDTO simpleShopDTO){
+        
         this.id=po.getId();
         this.name=po.getName();
         this.beginTime=po.getBeginTime();
@@ -120,15 +81,33 @@ public class Presale implements VoObject {
         this.gmtCreate=po.getGmtCreate();
         this.gmtModified=po.getGmtModified();
 
+        this.simpleGoodsSkuDTO = simpleGoodsSkuDTO;
+        this.simpleShopDTO = simpleShopDTO;
 
     }
     @Override
-    public Object createVo(){return null;}
+    public Object createSimpleVo() {
+        return null;
+    }
 
-    /**
-     * 生成BrandSimpleRetVo对象作为返回前端
-     * @return
-     */
     @Override
-    public BrandSimpleRetVo createSimpleVo(){return null; }
+    public Object createVo() {
+
+        PresaleRetVo vo = new PresaleRetVo();
+        vo.setId(id);
+        vo.setName(name);
+        vo.setBeginTime(beginTime);
+        vo.setPayTime(payTime);
+        vo.setEndTime(endTime);
+        vo.setGoodsSku(simpleGoodsSkuDTO);
+        vo.setShop(simpleShopDTO);
+        vo.setState(state);
+        vo.setQuantity(quantity);
+        vo.setAdvancePayPrice(advancePayPrice);
+        vo.setRestPayPrice(restPayPrice);
+        vo.setGmtCreate(gmtCreate);
+        vo.setGmtModified(gmtModified);
+
+        return vo;
+    }
 }
