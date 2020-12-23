@@ -5,9 +5,13 @@ import cn.edu.xmu.ooad.annotation.Depart;
 import cn.edu.xmu.ooad.annotation.LoginUser;
 import cn.edu.xmu.ooad.util.Common;
 import cn.edu.xmu.ooad.util.ResponseCode;
+import cn.edu.xmu.ooad.util.ResponseUtil;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.model.bo.Shop;
 import com.ooad.good.model.vo.shop.ShopConVo;
+
+import com.ooad.good.model.vo.shop.ShopStateVo;
+
 import com.ooad.good.model.vo.shop.ShopVo;
 import com.ooad.good.service.ShopService;
 import io.swagger.annotations.*;
@@ -22,6 +26,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,9 +59,16 @@ public class ShopController {
     })
     @Audit
     @GetMapping("/shops/states")
-    public Object getAllShopStates(){
-
-        logger.debug("getAllShops");
+    public Object getAllShopStates() {
+        logger.debug("getAllShopsStates");
+        Shop.StateType [] state= Shop.StateType.class.getEnumConstants();
+        List<ShopStateVo> shopStateVos = new ArrayList<>();
+        for (int i = 0; i < state.length; i++) {
+            shopStateVos.add(new ShopStateVo(state[i]));
+        }
+        return ResponseUtil.ok(new ReturnObject<List>(shopStateVos).getData());
+    }
+/*
         ReturnObject<List> returnObject =  shopService.getAllShopStates();
         if (returnObject.getCode() == ResponseCode.OK) {
             //logger.info(returnObject.getData().toString());
@@ -64,7 +76,7 @@ public class ShopController {
         } else {
             return Common.decorateReturnObject(returnObject);
         }
-    }
+        */
 
     /**
      * 新增商铺
@@ -86,7 +98,9 @@ public class ShopController {
     public Object insertShop(@Validated @RequestBody ShopVo vo, BindingResult bindingResult,
                              @LoginUser @ApiIgnore @RequestParam(required = false) Long userId,
                              @Depart @ApiIgnore @RequestParam(required = false) Long departId) {
-        logger.debug("insert role by userId:" + userId);
+        logger.debug("insert shop by userId:" + userId);
+        if(departId!=-1)
+            return new ReturnObject<>(ResponseCode.USER_HASSHOP);
         //校验前端数据
         Object returnObject = Common.processFieldErrors(bindingResult, httpServletResponse);
         if (null != returnObject) {
@@ -96,8 +110,10 @@ public class ShopController {
         Shop shop = vo.createShop();
         Byte state=0;//默认0为未审核状态，1为未上线状态，2为上线状态,3为审核未通过状态，4为逻辑删除
         shop.setGmtCreate(LocalDateTime.now());
-        shop.setState(state);
+        shop.setGmtModified(LocalDateTime.now());
+        shop.getState().setCode(state);
         ReturnObject retObject = shopService.insertShop(shop);
+
         if (retObject.getData() != null) {
             httpServletResponse.setStatus(HttpStatus.CREATED.value());
             return Common.getRetObject(retObject);
@@ -108,6 +124,7 @@ public class ShopController {
     /**
      * 店家修改店铺信息
      * @param id
+     * @param departId
      * @param vo
      * @param bindingResult
      * @return
@@ -123,7 +140,7 @@ public class ShopController {
     })
     @Audit // 需要认证
     @PutMapping("/shops/{id}")
-    public Object modifyShopInfo(@PathVariable Long id, @Validated @RequestBody ShopVo vo, BindingResult bindingResult) {
+    public Object modifyShopInfo(@PathVariable Long id,@Depart Long departId, @Validated @RequestBody ShopVo vo, BindingResult bindingResult) {
         if (logger.isDebugEnabled()) {
             logger.debug("modifyShopInfo: id = "+ id +" vo = " + vo);
         }
@@ -133,8 +150,13 @@ public class ShopController {
             logger.info("incorrect data received while modifyShopInfo id = " + id);
             return returnObject;
         }
+        if(id!=departId&&departId!=0)
+            return Common.decorateReturnObject(new ReturnObject<>(ResponseCode.RESOURCE_ID_OUTSCOPE));
         ReturnObject returnObj = shopService.modifyShopInfo(id, vo);
-        return Common.decorateReturnObject(returnObj);
+        if(returnObj.getCode()==ResponseCode.OK)
+            return Common.getRetObject(returnObj);
+        else
+            return Common.decorateReturnObject(returnObj);
     }
 
     /**
@@ -152,20 +174,19 @@ public class ShopController {
     })
     @Audit // 需要认证
     @DeleteMapping("/shops/{id}")
-    public Object deleteShop(@PathVariable("id")Long id,BindingResult bindingResult){
+    @ResponseBody
+    public Object deleteShop(@PathVariable("id")Long id,@Depart Long departId){
         logger.debug("delete shop: id =" +id);
         if (logger.isDebugEnabled()) {
-            logger.debug("modifyShopInfo: id = "+ id );
+            logger.debug("delete shop info: id = " + id);
         }
-        // 校验前端数据
-        Object retObject = Common.processFieldErrors(bindingResult, httpServletResponse);
-        if (retObject != null) {
-            logger.info("incorrect data received while modifyShopInfo id = " + id);
-            return retObject;
-        }
-
-        ReturnObject returnObject=shopService.deleteShop(id);
-        return Common.decorateReturnObject(returnObject);
+        if(id!=departId&&departId!=0)
+            return Common.decorateReturnObject(new ReturnObject<>(ResponseCode.RESOURCE_ID_OUTSCOPE));
+        ReturnObject returnObject=shopService.onshelvesShop(id);
+        if(returnObject.getCode()==ResponseCode.OK)
+            return Common.getRetObject(returnObject);
+        else
+            return Common.decorateReturnObject(returnObject);
     }
 
     /**
@@ -189,21 +210,21 @@ public class ShopController {
     public Object auditShopInfo(@PathVariable Long id, @PathVariable Long newid, @Validated @RequestBody ShopConVo vo, BindingResult bindingResult)
     {
         if (logger.isDebugEnabled()) {
-            logger.debug("modifyShopInfo: id = "+ id +" vo = " + vo);
+            logger.debug("judge ShopInfo: id = "+ id +" vo = " + vo);
         }
         // 校验前端数据
         Object returnObject = Common.processFieldErrors(bindingResult, httpServletResponse);
         if (returnObject != null) {
-            logger.info("incorrect data received while modifyShopInfo id = " + id);
+            logger.info("incorrect data received while judge ShopInfo id = " + id);
             return returnObject;
         }
-            return shopService.auditShopInfo(newid,vo.isConclusion());
+            return shopService.auditShopInfo(newid,vo.getConclusion());
     }
 
     /**
      * 管理员上线店铺
      * @param id
-     * @param bindingResult
+     * @param departId
      * @return
      */
     @ApiOperation(value = "管理员上线店铺")
@@ -216,25 +237,25 @@ public class ShopController {
     })
     @Audit // 需要认证
     @PutMapping("/shops/{id}/onshelves")
-    public Object onshelvesShop(@PathVariable("id")Long id,BindingResult bindingResult){
+    @ResponseBody
+    public Object onshelvesShop(@PathVariable("id")Long id,@Depart Long departId){
         logger.debug("onshelves shop: id =" +id);
         if (logger.isDebugEnabled()) {
-            logger.debug("modifyShopInfo: id = "+ id );
+            logger.debug("on shelves shop: id = "+ id );
         }
-        // 校验前端数据
-        Object retObject = Common.processFieldErrors(bindingResult, httpServletResponse);
-        if (retObject != null) {
-            logger.info("incorrect data received while modifyShopInfo id = " + id);
-            return retObject;
-        }
+        if(id!=departId&&departId!=0)
+            return Common.decorateReturnObject(new ReturnObject<>(ResponseCode.RESOURCE_ID_OUTSCOPE));
         ReturnObject returnObject=shopService.onshelvesShop(id);
-        return Common.decorateReturnObject(returnObject);
+        if(returnObject.getCode()==ResponseCode.OK)
+            return Common.getRetObject(returnObject);
+        else
+            return Common.decorateReturnObject(returnObject);
     }
 
     /**
      * 管理员下线店铺
      * @param id
-     * @param bindingResult
+     * @param departId
      * @return
      */
     @ApiOperation(value = "管理员下线店铺")
@@ -247,18 +268,25 @@ public class ShopController {
     })
     @Audit // 需要认证
     @PutMapping("/shops/{id}/offshelves")
-    public Object offshelvesShop(@PathVariable("id")Long id,BindingResult bindingResult){
+    @ResponseBody
+    public Object offshelvesShop(@PathVariable("id")Long id,@Depart Long departId){
         logger.debug("offshelves shop: id =" +id);
         if (logger.isDebugEnabled()) {
-            logger.debug("modifyShopInfo: id = "+ id );
+            logger.debug("offshelves shop: id = "+ id );
         }
+        if(id!=departId&&departId!=0)
+            return Common.decorateReturnObject(new ReturnObject<>(ResponseCode.RESOURCE_ID_OUTSCOPE));
         // 校验前端数据
+        /*
         Object retObject = Common.processFieldErrors(bindingResult, httpServletResponse);
         if (retObject != null) {
             logger.info("incorrect data received while modifyShopInfo id = " + id);
             return retObject;
-        }
+        }*/
         ReturnObject returnObject=shopService.offshelvesShop(id);
+        if(returnObject.getCode()==ResponseCode.OK)
+            return Common.getRetObject(returnObject);
+        else
         return Common.decorateReturnObject(returnObject);
     }
 }

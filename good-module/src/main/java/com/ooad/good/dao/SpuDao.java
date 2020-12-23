@@ -5,13 +5,11 @@ import cn.edu.xmu.ooad.util.ResponseCode;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.mapper.BrandPoMapper;
 import com.ooad.good.mapper.GoodsCategoryPoMapper;
+import com.ooad.good.mapper.SkuPoMapper;
 import com.ooad.good.mapper.SpuPoMapper;
 import com.ooad.good.model.bo.Brand;
 import com.ooad.good.model.bo.Spu;
-import com.ooad.good.model.po.BrandPo;
-import com.ooad.good.model.po.GoodsCategoryPo;
-import com.ooad.good.model.po.SpuPo;
-import com.ooad.good.model.po.SpuPoExample;
+import com.ooad.good.model.po.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +17,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Repository
@@ -26,6 +25,9 @@ public class SpuDao {
     private Logger logger = LoggerFactory.getLogger(SpuDao.class);
     @Autowired
     private SpuPoMapper spuPoMapper;
+
+    @Autowired
+    private SkuPoMapper skuPoMapper;
 
     @Autowired
     private BrandPoMapper brandPoMapper;
@@ -218,6 +220,81 @@ public class SpuDao {
         retObj = new ReturnObject<>();
         return retObj;
     }
+    /**
+     * 获取店铺id下的spuid
+     * @param id
+     * @return
+     */
+    public ReturnObject<List> getAllSpuIdByShopId(Long id) {
+        SpuPoExample example = new SpuPoExample();
+        SpuPoExample.Criteria criteria = example.createCriteria();
+        criteria.andShopIdEqualTo(id);
+        List<SpuPo> pos = null;
+        try {
+            pos = spuPoMapper.selectByExample(example);
+        } catch (Exception e) {
+            logger.debug("other sql exception : " + e.getMessage());
+            return new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR, String.format("数据库错误：%s", e.getMessage()));
+        }
+        List<Long> ids = null;
+        if(pos!=null) {
+            for(SpuPo p : pos){
+                ids.add(p.getId());
+            }
+        }
+        return new ReturnObject<>(ids);
+    }
 
+    /**
+     * 管理员逻辑删除对应店铺shopid的相应商品id的商品
+     * @param shopId
+     * @param id
+     */
+    public ReturnObject<Object> deleteGoodsSpu(Long shopId, Long id) {
+        ReturnObject<Object> returnObject=null;
+        try{
+            SpuPo spuPo=spuPoMapper.selectByPrimaryKey(id);
+            if(spuPo==null||!spuPo.getShopId().equals(shopId)||spuPo.getDisabled().equals((byte)1))
+                return returnObject=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
+            SkuPoExample skuPoExample=new SkuPoExample();
+            SkuPoExample.Criteria criteria=skuPoExample.createCriteria();
+            criteria.andDisabledEqualTo((byte)0);
+            List<SkuPo>skuPos=skuPoMapper.selectByExample(skuPoExample);
+
+            if(skuPos==null)
+            {
+                skuPoMapper.deleteByPrimaryKey(id);
+                return new ReturnObject<>(ResponseCode.OK);
+            }
+
+            for(SkuPo skuPo:skuPos)
+            {
+                SkuPoExample skuExample=new SkuPoExample();
+                SkuPoExample.Criteria skucriteria=skuExample.createCriteria();
+                criteria.andIdEqualTo(skuPo.getId());
+                criteria.andGoodsSpuIdEqualTo(id);
+                skuPo.setDisabled((byte)6);
+                int ret =skuPoMapper.updateByExample(skuPo,skuExample);
+                if(ret==0)
+                {
+                    logger.debug("delete sku id:"+skuPo.getId()+"fail");
+                    returnObject=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
+                }
+            }
+            spuPoMapper.deleteByPrimaryKey(id);
+            return new ReturnObject<>(ResponseCode.OK);
+        }
+        catch (DataAccessException e) {
+            logger.error("数据库错误：" + e.getMessage());
+            returnObject = new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR,
+                    String.format("发生了严重的数据库错误：%s", e.getMessage()));
+        } catch (Exception e) {
+            // 其他 Exception 即属未知错误
+            logger.error("严重错误：" + e.getMessage());
+            returnObject= new ReturnObject<>(ResponseCode.INTERNAL_SERVER_ERR,
+                    String.format("发生了严重的未知错误：%s", e.getMessage()));
+        }
+        return returnObject;
+    }
 
 }

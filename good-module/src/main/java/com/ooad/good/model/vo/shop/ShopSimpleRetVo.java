@@ -4,21 +4,19 @@ import com.ooad.good.model.bo.Shop;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-/**
- * @Author: Chaoyang Deng
- * @Date: 2020/12/9 上午9:20
- */
 @Data
 public class ShopSimpleRetVo {
+    @ApiModelProperty(value="店铺id")
+    private Long id;
     @ApiModelProperty(value="店铺名称")
     private String name;
 
-    @ApiModelProperty(value="店铺状态")
-    private Byte state;
-
+    public ShopSimpleRetVo()
+    {}
     public ShopSimpleRetVo(Shop shop)
     {
-        this.state=shop.getState();
+        this.id=shop.getId();
         this.name=shop.getName();
     }
 }
+
