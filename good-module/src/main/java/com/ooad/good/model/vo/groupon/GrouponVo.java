@@ -1,7 +1,6 @@
-package com.ooad.good.model.vo;
+package com.ooad.good.model.vo.groupon;
 
 import com.ooad.good.model.bo.Groupon;
-import com.ooad.good.model.bo.Presale;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

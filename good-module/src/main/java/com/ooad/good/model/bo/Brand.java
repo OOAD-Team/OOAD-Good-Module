@@ -2,9 +2,9 @@ package com.ooad.good.model.bo;
 
 import cn.edu.xmu.ooad.model.VoObject;
 import com.ooad.good.model.po.BrandPo;
-import com.ooad.good.model.vo.BrandRetVo;
-import com.ooad.good.model.vo.BrandSimpleRetVo;
-import com.ooad.good.model.vo.BrandVo;
+import com.ooad.good.model.vo.brand.BrandRetVo;
+import com.ooad.good.model.vo.brand.BrandSimpleRetVo;
+import com.ooad.good.model.vo.brand.BrandVo;
 import lombok.Data;
 
 import java.time.LocalDateTime;

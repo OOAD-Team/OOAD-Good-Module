@@ -3,18 +3,16 @@ package com.ooad.good.controller;
 import cn.edu.xmu.ooad.annotation.Audit;
 import cn.edu.xmu.ooad.model.VoObject;
 import cn.edu.xmu.ooad.util.Common;
-import cn.edu.xmu.ooad.util.ResponseCode;
-import cn.edu.xmu.ooad.util.ResponseUtil;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.github.pagehelper.PageInfo;
 import com.ooad.good.model.bo.Brand;
 import com.ooad.good.model.bo.Category;
 import com.ooad.good.model.bo.Sku;
 import com.ooad.good.model.bo.Spu;
-import com.ooad.good.model.vo.BrandVo;
-import com.ooad.good.model.vo.CategoryVo;
-import com.ooad.good.model.vo.SkuVo;
-import com.ooad.good.model.vo.SpuVo;
+import com.ooad.good.model.vo.brand.BrandVo;
+import com.ooad.good.model.vo.category.CategoryVo;
+import com.ooad.good.model.vo.sku.SkuVo;
+import com.ooad.good.model.vo.spu.SpuVo;
 import com.ooad.good.service.BrandService;
 
 import com.ooad.good.service.CategoryService;
@@ -31,7 +29,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Api(value="商品服务",tags="goods")
 @RestController

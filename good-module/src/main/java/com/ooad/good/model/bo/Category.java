@@ -2,8 +2,8 @@ package com.ooad.good.model.bo;
 
 import cn.edu.xmu.ooad.model.VoObject;
 import com.ooad.good.model.po.GoodsCategoryPo;
-import com.ooad.good.model.vo.CategoryRetVo;
-import com.ooad.good.model.vo.CategorySimpleRetVo;
+import com.ooad.good.model.vo.category.CategoryRetVo;
+import com.ooad.good.model.vo.category.CategorySimpleRetVo;
 import lombok.Data;
 
 import java.time.LocalDateTime;

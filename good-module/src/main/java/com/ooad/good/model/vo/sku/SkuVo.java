@@ -1,4 +1,4 @@
-package com.ooad.good.model.vo;
+package com.ooad.good.model.vo.sku;
 
 import com.ooad.good.model.bo.Sku;
 import lombok.Data;

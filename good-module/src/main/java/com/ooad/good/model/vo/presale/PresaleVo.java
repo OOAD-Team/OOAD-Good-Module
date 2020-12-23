@@ -1,4 +1,4 @@
-package com.ooad.good.model.vo;
+package com.ooad.good.model.vo.presale;
 
 import com.ooad.good.model.bo.Presale;
 import lombok.Data;

@@ -1,6 +1,5 @@
-package com.ooad.good.model.vo;
+package com.ooad.good.model.vo.category;
 
-import com.ooad.good.model.bo.Brand;
 import com.ooad.good.model.bo.Category;
 import lombok.Data;
 

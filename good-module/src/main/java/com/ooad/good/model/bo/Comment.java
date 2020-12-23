@@ -2,8 +2,8 @@ package com.ooad.good.model.bo;
 
 import cn.edu.xmu.ooad.model.VoObject;
 import com.ooad.good.model.po.CommentPo;
-import com.ooad.good.model.vo.CommentRetVo;
-import com.ooad.good.model.vo.CommentSimpleRetVo;
+import com.ooad.good.model.vo.comment.CommentRetVo;
+import com.ooad.good.model.vo.comment.CommentSimpleRetVo;
 import lombok.Data;
 
 import java.time.LocalDateTime;

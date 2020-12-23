@@ -10,10 +10,10 @@ import cn.edu.xmu.ooad.util.ResponseUtil;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.github.pagehelper.PageInfo;
 import com.ooad.good.model.bo.Comment;
-import com.ooad.good.model.vo.CommentConclusionVo;
-import com.ooad.good.model.vo.CommentRetVo;
-import com.ooad.good.model.vo.CommentStateRetVo;
-import com.ooad.good.model.vo.CommentVo;
+import com.ooad.good.model.vo.comment.CommentConclusionVo;
+import com.ooad.good.model.vo.comment.CommentRetVo;
+import com.ooad.good.model.vo.comment.CommentStateRetVo;
+import com.ooad.good.model.vo.comment.CommentVo;
 import com.ooad.good.service.CommentService;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -31,7 +31,7 @@ import java.util.List;
 
 @Api(value="评论服务",tags="comment")
 @RestController
-@RequestMapping(value = "/comment", produces = "application/json;charset=UTF-8")
+@RequestMapping(value = "/goods", produces = "application/json;charset=UTF-8")
 public class CommentController {
 
     private  static  final Logger logger = LoggerFactory.getLogger(CommentController.class);

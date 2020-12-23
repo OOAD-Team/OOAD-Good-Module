@@ -4,8 +4,7 @@ import cn.edu.xmu.ooad.annotation.Audit;
 import cn.edu.xmu.ooad.util.Common;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.model.bo.Groupon;
-import com.ooad.good.model.bo.Presale;
-import com.ooad.good.model.vo.GrouponVo;
+import com.ooad.good.model.vo.groupon.GrouponVo;
 import com.ooad.good.service.GrouponService;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
@@ -21,7 +20,7 @@ import java.time.LocalDateTime;
 
 @Api(value="团购服务",tags="groupon")
 @RestController
-@RequestMapping(value = "/groupon", produces = "application/json;charset=UTF-8")
+@RequestMapping(value = "/goods", produces = "application/json;charset=UTF-8")
 public class GrouponController {
     private  static  final Logger logger = LoggerFactory.getLogger(GrouponController.class);
 

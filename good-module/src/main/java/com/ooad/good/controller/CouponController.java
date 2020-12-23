@@ -4,8 +4,8 @@ import cn.edu.xmu.ooad.annotation.Audit;
 import cn.edu.xmu.ooad.util.Common;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.model.bo.CouponActivity;
-import com.ooad.good.model.vo.CouponActivityVo;
-import com.ooad.good.model.vo.UpdateCouponActivityVo;
+import com.ooad.good.model.vo.couponActivity.CouponActivityVo;
+import com.ooad.good.model.vo.couponActivity.UpdateCouponActivityVo;
 import com.ooad.good.service.CouponService;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 
 @Api(value="优惠服务",tags="coupon")
 @RestController
-@RequestMapping(value = "/coupon", produces = "application/json;charset=UTF-8")
+@RequestMapping(value = "/goods", produces = "application/json;charset=UTF-8")
 public class CouponController {
 
     private  static  final Logger logger = LoggerFactory.getLogger(CouponController.class);

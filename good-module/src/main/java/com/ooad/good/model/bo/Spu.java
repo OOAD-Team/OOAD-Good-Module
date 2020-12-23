@@ -1,7 +1,7 @@
 package com.ooad.good.model.bo;
 
 import com.ooad.good.model.po.SpuPo;
-import com.ooad.good.model.vo.SpuVo;
+import com.ooad.good.model.vo.spu.SpuVo;
 import lombok.Data;
 
 import java.time.LocalDateTime;

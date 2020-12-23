@@ -2,9 +2,9 @@ package com.ooad.good.model.bo;
 
 import cn.edu.xmu.ooad.model.VoObject;
 import com.ooad.good.model.po.ShopPo;
-import com.ooad.good.model.vo.ShopRetVo;
-import com.ooad.good.model.vo.ShopSimpleRetVo;
-import com.ooad.good.model.vo.ShopVo;
+import com.ooad.good.model.vo.shop.ShopRetVo;
+import com.ooad.good.model.vo.shop.ShopSimpleRetVo;
+import com.ooad.good.model.vo.shop.ShopVo;
 import lombok.Data;
 
 import java.time.LocalDateTime;

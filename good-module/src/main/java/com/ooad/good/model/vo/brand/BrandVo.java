@@ -1,7 +1,6 @@
-package com.ooad.good.model.vo;
+package com.ooad.good.model.vo.brand;
 
 import com.ooad.good.model.bo.Brand;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
