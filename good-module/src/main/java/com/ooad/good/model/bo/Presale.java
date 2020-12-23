@@ -19,9 +19,9 @@ import java.util.Map;
 public class Presale implements VoObject {
 
     public enum PresaleState {
-        DELETE(0, "DELETE"),
+        DELETE(0, "OFFLINE"),
         ONLINE(1, "ONLINE"),
-        OFFLIE(2, "OFFLIE");
+        OFFLIE(2, "DELETE");
 
 
         private static final Map<Integer, PresaleState> typeMap;

@@ -73,4 +73,6 @@ public class CouponService {
         ReturnObject<CouponActivity>retObj=couponDao.offlineCouponactivity(id);
         return  retObj;
     }
+
+
 }

@@ -145,4 +145,20 @@ public class PresaleController {
         return Common.getRetObject(retObject);
 
     }
+
+    /**
+     * 管理员逻辑删除sku预售活动
+     * @param id
+     * @return
+     */
+    @Audit
+    @DeleteMapping("presales/{id}")
+    public Object deletePresale(@PathVariable("id")Long id){
+
+        logger.debug("deletePresale: id ="+id);
+
+        ReturnObject retObject=presaleService.deletePresale(id);
+        return Common.getRetObject(retObject);
+
+    }
 }
