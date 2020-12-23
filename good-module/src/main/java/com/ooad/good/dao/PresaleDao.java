@@ -163,7 +163,7 @@ public class PresaleDao {
     public ReturnObject<Presale>onlinePresale(Long id){
         PresaleActivityPo presaleActivityPo=presaleActivityPoMapper.selectByPrimaryKey(id);
         ReturnObject<Presale>retObj=null;
-        if(presaleActivityPo==null||presaleActivityPo.getState()==0){
+        if(presaleActivityPo==null||presaleActivityPo.getState()==2){
             //预售活动不存在或已被删除
             logger.info("presale not exist");
             retObj=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
@@ -187,21 +187,42 @@ public class PresaleDao {
     public ReturnObject<Presale> offlinePresale(Long id){
         PresaleActivityPo presaleActivityPo=presaleActivityPoMapper.selectByPrimaryKey(id);
         ReturnObject<Presale>retObj=null;
-        if(presaleActivityPo==null||presaleActivityPo.getState()==0){
+        if(presaleActivityPo==null||presaleActivityPo.getState()==2){
             //预售活动不存在或已被删除
             logger.info("presale not exist");
             retObj=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
             return retObj;
         }
 
-        Byte state=2;
+        Byte state=0;
         presaleActivityPo.setState(state);
         logger.info("offlinePresale: successful: presale name = " + presaleActivityPo.getName());
 
         retObj = new ReturnObject<>();
         return retObj;
-
     }
 
+    /**
+     * 管理员逻辑删除预售活动
+     * @param id
+     * @return
+     */
+    public ReturnObject<Presale> deletePresale(Long id){
+        PresaleActivityPo presaleActivityPo=presaleActivityPoMapper.selectByPrimaryKey(id);
+        ReturnObject<Presale>retObj=null;
+        if(presaleActivityPo==null){
+            //预售活动不存在
+            logger.info("presale not exist");
+            retObj=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
+            return retObj;
+        }
+
+        Byte state=0;
+        presaleActivityPo.setState(state);
+        logger.info("deletePresale: successful: presale name = " + presaleActivityPo.getName());
+
+        retObj = new ReturnObject<>();
+        return retObj;
+    }
 
 }

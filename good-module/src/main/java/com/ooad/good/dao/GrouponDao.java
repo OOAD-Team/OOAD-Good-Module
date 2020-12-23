@@ -114,7 +114,7 @@ public class GrouponDao {
     public ReturnObject<Groupon>onlineGroupon(Long id){
         GrouponActivityPo grouponActivityPo=grouponActivityPoMapper.selectByPrimaryKey(id);
         ReturnObject<Groupon>retObj=null;
-        if(grouponActivityPo==null||grouponActivityPo.getState()==0){
+        if(grouponActivityPo==null||grouponActivityPo.getState()==2){
             //团购活动不存在或已被删除
             logger.info("groupon not exist");
             retObj=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
@@ -138,14 +138,14 @@ public class GrouponDao {
     public ReturnObject<Groupon> offlineGroupon(Long id){
         GrouponActivityPo grouponActivityPo=grouponActivityPoMapper.selectByPrimaryKey(id);
         ReturnObject<Groupon>retObj=null;
-        if(grouponActivityPo==null||grouponActivityPo.getState()==0){
+        if(grouponActivityPo==null||grouponActivityPo.getState()==2){
             //团购活动不存在或已被删除
             logger.info("groupon not exist");
             retObj=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
             return retObj;
         }
 
-        Byte state=2;
+        Byte state=0;
         grouponActivityPo.setState(state);
         logger.info("offlineGroupon: successful: groupon name = " + grouponActivityPo.getName());
 

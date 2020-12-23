@@ -71,7 +71,7 @@ public class SkuDao {
     public ReturnObject<Sku>onlineSku(Long id){
         SkuPo skuPo=skuPoMapper.selectByPrimaryKey(id);
         ReturnObject<Sku>retObj=null;
-        if(skuPo==null||skuPo.getState()==0){
+        if(skuPo==null||skuPo.getState()==2){
             //商品sku不存在或已被删除
             logger.info("sku not exist");
             retObj=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
@@ -95,14 +95,14 @@ public class SkuDao {
     public ReturnObject<Sku> offlineSku(Long id){
         SkuPo skuPo=skuPoMapper.selectByPrimaryKey(id);
         ReturnObject<Sku>retObj=null;
-        if(skuPo==null||skuPo.getState()==0){
+        if(skuPo==null||skuPo.getState()==2){
             //团购活动不存在或已被删除
             logger.info("sku not exist");
             retObj=new ReturnObject<>(ResponseCode.RESOURCE_ID_NOTEXIST);
             return retObj;
         }
 
-        Byte state=2;
+        Byte state=0;
         skuPo.setState(state);
         logger.info("offlineSku: successful: sku name = " + skuPo.getName());
 

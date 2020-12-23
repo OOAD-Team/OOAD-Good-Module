@@ -76,4 +76,15 @@ public class PresaleService {
         ReturnObject<Presale>retObj=presaleDao.offlinePresale(id);
         return  retObj;
     }
+
+    /**
+     * 管理员逻辑删除预售活动
+     * @param id
+     * @return
+     */
+    @Transactional
+    public ReturnObject deletePresale(Long id){
+        ReturnObject<Presale>retObj=presaleDao.deletePresale(id);
+        return  retObj;
+    }
 }
