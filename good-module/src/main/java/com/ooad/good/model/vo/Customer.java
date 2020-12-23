@@ -1,9 +1,12 @@
-package com.ooad.good.model.vo.comment;
+package com.ooad.good.model.vo;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * 顾客vo
+ */
 @Data
 public class Customer {
 

@@ -3,6 +3,7 @@ package com.ooad.good.model.vo.comment;
 
 import cn.edu.xmu.ooad.model.VoObject;
 import com.ooad.good.model.bo.Comment;
+import com.ooad.good.model.vo.Customer;
 import lombok.Data;
 
 import java.time.LocalDateTime;
