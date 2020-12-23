@@ -9,7 +9,9 @@ import cn.edu.xmu.ooad.util.ResponseUtil;
 import cn.edu.xmu.ooad.util.ReturnObject;
 import com.ooad.good.model.bo.Shop;
 import com.ooad.good.model.vo.shop.ShopConVo;
+
 import com.ooad.good.model.vo.shop.ShopStateVo;
+
 import com.ooad.good.model.vo.shop.ShopVo;
 import com.ooad.good.service.ShopService;
 import io.swagger.annotations.*;

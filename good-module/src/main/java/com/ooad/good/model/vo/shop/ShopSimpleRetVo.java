@@ -19,3 +19,4 @@ public class ShopSimpleRetVo {
         this.name=shop.getName();
     }
 }
+
